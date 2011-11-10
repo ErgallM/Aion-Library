@@ -1,5 +1,5 @@
 <?php
-require 'lang.php';
+require '../lang.php';
 $lang = new Lang();
 ?><!DOCTYPE html>
 <html>
@@ -11,9 +11,9 @@ $lang = new Lang();
     <title></title>
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link href='css/cssreset-min.css' rel='stylesheet' type='text/css'>
-    <link href='css/main.css' rel='stylesheet' type='text/css'>
-    <link href='css/ap.css' rel='stylesheet' type='text/css'>
+    <link href='../css/cssreset-min.css' rel='stylesheet' type='text/css'>
+    <link href='../css/main.css' rel='stylesheet' type='text/css'>
+    <link href='../css/ap.css' rel='stylesheet' type='text/css'>
 
     <script language="javascript" src="/js/mootools-core-1.4.1-full-nocompat-yc.js"></script>
     <script language="javascript" src="/js/Element.serialize.js"></script>

@@ -23,8 +23,8 @@ $lang = new Lang();
     </ul>
 </div>
 <div class="c-menu">
-    <div><a href="/apcalculator.php" class="button"><?= $lang->translate('АП Калькулятор'); ?></a></div>
-    <div><a href="#" class="button"><?= $lang->translate('Билд Шмота'); ?></a></div>
+    <div><a href="/ap/" class="button"><?= $lang->translate('АП Калькулятор'); ?></a></div>
+    <div><a href="/armor/" class="button"><?= $lang->translate('Билд Шмота'); ?></a></div>
 </div>
 </body>
 </html>
