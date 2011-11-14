@@ -19,7 +19,8 @@ var Ap = new Class({
         usersCoundId: null,
 
         'buttons': {
-            'calcPeople': null
+            'calcPeople': null,
+            'calcForUser': null
         },
 
         /**
@@ -125,6 +126,37 @@ var Ap = new Class({
             });
         }
 
+        if (this.options.buttons.calcForUser) {
+            this.options.buttons.calcForUser.addEvent('click', function(e) {
+                var user = this.get('data-user');
+                that.calcPersone(user);
+                $$('#forUser .close')[0].fireEvent('click', e);
+                e.stop();
+                return false;
+            });
+            $('calcForUser').addEvent('click', function(e) {
+                var users = that.options.users;
+
+                $$('#forUser .u-list button').each(function(el) {el.addClass('hide');});
+                Array.each(users, function(value, key) {
+                    var button = $$('#forUser .u-list button[data-user=' + key + ']');
+                    button.removeClass('hide');
+                    button.getElement('span').set('text', value);
+                });
+                
+                $$('#forUser .close')[0].fireEvent('click', e);
+                e.stop();
+                return false;
+            });
+
+            $$('#forUser .close, #spiner').addEvent('click', function(e) {
+                $('spiner').toggleClass('hide');
+                $('forUser').toggleClass('hide');
+                e.stop();
+                return false;
+            })
+        }
+
         $('clear').addEvent('click', function(e) {
             that.clear();
             e.stop();
@@ -159,15 +191,20 @@ var Ap = new Class({
 
         return (allAp + startAp);
     },
-    calcPersone: function() {
+    calcPersone: function(forUser) {
         var userCound = Number.from($(this.options.usersCoundId).get('value'));
         if (!userCound) throw new Error("userCound is empty");
 
         var items = $(this.options.formId).serialize(true);
         if (!items.items) throw new Error("items is empty");
 
-        var itemsAp = this.options.itemsAp;
+        if (undefined == forUser) {
+            forUser = null;
+        } else {
+            forUser = Number.from(forUser);
+        }
 
+        var itemsAp = this.options.itemsAp;
 
         var stek = [];
         var allPrice = 0;
@@ -187,11 +224,30 @@ var Ap = new Class({
                 }
             });
         });
+        if (0 == allPrice) return false;
 
         var users = this.options.users;
         var srez = allPrice / userCound;
 
         var usersItems = Array.clone(this.options.usersItems);
+
+        if (null != forUser) {
+
+            userCound = (forUser > userCound) ? forUser + 1 : userCound;
+            $(this.options.usersCoundId).set('value', userCound);
+            
+            for (var userId = 0; userId < userCound; userId++) {
+                if (undefined == users[userId]) users[userId] = 0;
+                if (undefined == usersItems[userId]) usersItems[userId] = [];
+            }
+            Array.each(stek, function(value) {
+                if (value) {
+                    users[forUser] += value.ap;
+                    usersItems[forUser].append([value]);
+                    }
+                });
+            stek = [];
+        } else {
 
         for (var userId = 0; userId < userCound; userId++) {
             if (undefined == users[userId]) users[userId] = 0;
@@ -206,12 +262,12 @@ var Ap = new Class({
 
                         usersItems[userId].append([stek[itemId]]);
 
-                        //console.log(stek[itemId], itemId);
                         stek[itemId] = null;
                     }
                 }
                 if (users[userId] >= srez) break;
             }
+        }
         }
 
         var getMinUser = function(users) {
@@ -232,7 +288,8 @@ var Ap = new Class({
             return {key: minId, value: minValue};
         }
 
-        stek.each(function(value) {
+        // Раздача остатков
+        Array.each(stek, function(value) {
             if (value) {
                 var minUser = getMinUser(users);
                 users[minUser.key] += value.ap;
@@ -241,7 +298,6 @@ var Ap = new Class({
             }
         });
 
-        //console.log(users, usersItems);
         this.addPerconeResultLine(users, usersItems);
     },
     clear: function() {
@@ -481,12 +537,12 @@ var Man = new Class({
                 var slot = Number.from(this.get('slot'));
                 that.options.filterSlot.set('value', slot);
 
-                var class = Number.from(that.options.filterClass.get('value'));
+                var tClass = Number.from(that.options.filterClass.get('value'));
 
                 that.options.filterType.set('value', '0');
 
                 // Танк
-                if (1 == class) {
+                if (1 == tClass) {
 
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
@@ -502,7 +558,7 @@ var Man = new Class({
                 }
 
                 // Гладиатор
-                if (2 == class) {
+                if (2 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань, Кожа, Кольчуга, Латы
@@ -517,7 +573,7 @@ var Man = new Class({
                 }
 
                 // Целитель
-                if (3 == class) {
+                if (3 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань, Кожа, Кольчуга
@@ -532,7 +588,7 @@ var Man = new Class({
                 }
 
                 // Чародей
-                if (4 == class) {
+                if (4 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань, Кожа, Кольчуга
@@ -547,7 +603,7 @@ var Man = new Class({
                 }
 
                 // Стрелок
-                if (5 == class) {
+                if (5 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань, Кожа
@@ -562,7 +618,7 @@ var Man = new Class({
                 }
 
                 // Убийца
-                if (6 == class) {
+                if (6 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань, Кожа
@@ -577,7 +633,7 @@ var Man = new Class({
                 }
 
                 // Волшебник
-                if (7 == class) {
+                if (7 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань
@@ -592,7 +648,7 @@ var Man = new Class({
                 }
 
                 // Заклинатель
-                if (8 == class) {
+                if (8 == tClass) {
                     // Тело - Торс, Штаны, Ботинки, Наплечники, Перчатки
                     if ([2, 3, 4, 5, 6].indexOf(slot) != -1) {
                         // Ткань

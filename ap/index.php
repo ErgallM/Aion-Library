@@ -1,6 +1,6 @@
 <?php
 require '../lang.php';
-$lang = new Lang();
+$lang = new Lang(); $lang->addLangDb('ap');
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +11,9 @@ $lang = new Lang();
     <title></title>
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link href='../css/cssreset-min.css' rel='stylesheet' type='text/css'>
-    <link href='../css/main.css' rel='stylesheet' type='text/css'>
-    <link href='../css/ap.css' rel='stylesheet' type='text/css'>
+    <link href='/css/cssreset-min.css' rel='stylesheet' type='text/css'>
+    <link href='/css/main.css' rel='stylesheet' type='text/css'>
+    <link href='/css/ap.css' rel='stylesheet' type='text/css'>
 
     <script language="javascript" src="/js/mootools-core-1.4.1-full-nocompat-yc.js"></script>
     <script language="javascript" src="/js/Element.serialize.js"></script>
@@ -36,7 +36,7 @@ $lang = new Lang();
         <div class="span-7 content-items-block">
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Простая древняя иконка
+                    <?= $lang->translate('Простая древняя икона'); ?>
                     <span>300 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -48,7 +48,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Обычная древняя икона
+                    <?= $lang->translate('Обычная древняя икона'); ?>
                     <span>600 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -60,7 +60,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Дорогая древняя икона
+                    <?= $lang->translate('Дорогая древняя икона'); ?>
                     <span>900 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -72,7 +72,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Бесценная древняя икона
+                    <?= $lang->translate('Бесценная древняя икона'); ?>
                     <span>1200 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -87,7 +87,7 @@ $lang = new Lang();
         <div class="span-7 content-items-block">
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Простая древняя печать
+                    <?= $lang->translate('Простая древняя печать'); ?>
                     <span>600 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -99,7 +99,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Обычная древняя печать
+                    <?= $lang->translate('Обычная древняя печать'); ?>
                     <span>1200 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -111,7 +111,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Дорогая древняя печать
+                    <?= $lang->translate('Дорогая древняя печать'); ?>
                     <span>1800 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -123,7 +123,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Бесценная древняя печать
+                    <?= $lang->translate('Бесценная древняя печать'); ?>
                     <span>2400 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -140,7 +140,7 @@ $lang = new Lang();
         <div class="span-7 content-items-block">
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Простая древняя чаша
+                    <?= $lang->translate('Простая древняя чаша'); ?>
                     <span>1200 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -152,7 +152,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Обычная древняя чаша
+                    <?= $lang->translate('Обычная древняя чаша'); ?>
                     <span>2400 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -164,7 +164,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Дорогая древняя чаша
+                    <?= $lang->translate('Дорогая древняя чаша'); ?>
                     <span>3600 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -176,7 +176,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Бесценная древняя чаша
+                    <?= $lang->translate('Бесценная древняя чаша'); ?>
                     <span>4800 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -191,7 +191,7 @@ $lang = new Lang();
         <div class="span-7 content-items-block">
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Простая древняя корона
+                    <?= $lang->translate('Простая древняя корона'); ?>
                     <span>2400 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -203,7 +203,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Обычная древняя корона
+                    <?= $lang->translate('Обычная древняя корона'); ?>
                     <span>4800 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -215,7 +215,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Дорогая древняя корона
+                    <?= $lang->translate('Дорогая древняя корона'); ?>
                     <span>7200 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -227,7 +227,7 @@ $lang = new Lang();
 
             <div class="content-items-cell">
                 <div class="left content-items-infoblock">
-                    Бесценная древняя корона
+                    <?= $lang->translate('Бесценная древняя корона'); ?>
                     <span>9600 APs</span>
                 </div>
                 <div class="right content-items-imageblock">
@@ -246,12 +246,12 @@ $lang = new Lang();
     <div class="content-group">
         <div>
             <label>
-                Выберите количество игроков в группе
+                <?= $lang->translate('Выберите количество игроков в группе'); ?>
                 <select id="userCound">
                     <option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
                 </select>
             </label>
-            &mdash; <a href="#" class="calcPeople">Распределить на группу</a>
+            &mdash; <a href="#" class="calcPeople"><?= $lang->translate('Распределить на группу'); ?></a>
         </div>
 
         <div id="content-group-legend">
@@ -262,11 +262,12 @@ $lang = new Lang();
 </div>
 
 <div class="right-menu">
-    <h3>Ваши очки бездны</h3>
+    <h3><?= $lang->translate('Ваши очки бездны'); ?></h3>
     <p id="aps-all" class="aps-all">0</p>
     <p>
-        <a href="#" id="clear" class="button b2" style="margin-bottom: 1em;">Сброс</a><br />
-        <a href="#" class="calcPeople button b2">Распределить на группу</a>
+        <a href="#" id="clear" class="button b2" style="margin-bottom: 1em;"><?= $lang->translate('Сброс'); ?></a><br />
+        <a href="#" class="calcPeople button b2" style="margin-bottom: 1em;"><?= $lang->translate('Распределить на группу'); ?></a><br />
+        <a href="#" id="calcForUser" class="button b2"><?= $lang->translate('Отдать одному'); ?></a>
     </p>
     <!--
     <p>
@@ -277,22 +278,63 @@ $lang = new Lang();
     <p>&nbsp;</p>
 
     <div>
-        <h3>Сейчас на руках:</h3>
+        <h3><?= $lang->translate('Сейчас на руках'); ?>:</h3>
         <div id="groupNowAp">
         </div>
     </div>
 </div>
 
+<div id="spiner" class="hide"></div>
+<div id="forUser" class="hide">
+    <div><a href="#" class="close">X</a></div>
+    <p><?= $lang->translate('Выберите пользователя которому собираетесь отдать все указанные итемы'); ?></p>
+    <div class="u-list">
+        <button data-user="0" class="button"><?= $lang->translate('Пользователь'); ?> 1<br /><span>0</span>AP</button>
+        <button data-user="1" class="button"><?= $lang->translate('Пользователь'); ?> 2<br /><span>0</span>AP</button>
+        <button data-user="2" class="button"><?= $lang->translate('Пользователь'); ?> 3<br /><span>0</span>AP</button>
+        <button data-user="3" class="button"><?= $lang->translate('Пользователь'); ?> 4<br /><span>0</span>AP</button>
+        <button data-user="4" class="button"><?= $lang->translate('Пользователь'); ?> 5<br /><span>0</span>AP</button>
+        <button data-user="5" class="button"><?= $lang->translate('Пользователь'); ?> 6<br /><span>0</span>AP</button>
+    </div>
+</div>
+
 <script language="javascript">
     window.addEvent('domready', function() {
-        var a = new Ap({
+        window.a = new Ap({
             'formId':'items',
             'resultId': 'aps-all',
             'usersCoundId': 'userCound',
             'usersGroupLegend': 'content-group-legend',
             'groupNowApId': 'groupNowAp',
             'buttons': {
-                'calcPeople': $$('.calcPeople')
+                'calcPeople': $$('.calcPeople'),
+                'calcForUser': $$('#forUser button')
+            },
+            'itemsName': {
+                'icon'  : {
+                    '300'   : '<?= $lang->translate('Простая древняя икона'); ?>',
+                    '600'   : '<?= $lang->translate('Обычная древняя икона'); ?>',
+                    '900'   : '<?= $lang->translate('Дорогая древняя икона'); ?>',
+                    '1200'  : '<?= $lang->translate('Бесценная древняя икона'); ?>'
+                },
+                'seal'  : {
+                    '600'   : '<?= $lang->translate('Простая древняя печать'); ?>',
+                    '1200'  : '<?= $lang->translate('Обычная древняя печать'); ?>',
+                    '1800'  : '<?= $lang->translate('Дорогая древняя печать'); ?>',
+                    '2400'  : '<?= $lang->translate('Бесценная древняя печать'); ?>'
+                },
+                'cup'   : {
+                    '1200'  : '<?= $lang->translate('Простая древняя чаша'); ?>',
+                    '2400'  : '<?= $lang->translate('Обычная древняя чаша'); ?>',
+                    '3600'  : '<?= $lang->translate('Дорогая древняя чаша'); ?>',
+                    '4800'  : '<?= $lang->translate('Бесценная древняя чаша'); ?>'
+                },
+                'crown' : {
+                    '2400'  : '<?= $lang->translate('Простая древняя корона'); ?>',
+                    '4800'  : '<?= $lang->translate('Обычная древняя корона'); ?>',
+                    '7200'  : '<?= $lang->translate('Дорогая древняя корона'); ?>',
+                    '9600'  : '<?= $lang->translate('Бесценная древняя корона'); ?>'
+                }
             }
         });
     });

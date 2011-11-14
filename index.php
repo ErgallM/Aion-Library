@@ -11,8 +11,8 @@ $lang = new Lang();
     <title></title>
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link href='css/cssreset-min.css' rel='stylesheet' type='text/css'>
-    <link href='css/main.css' rel='stylesheet' type='text/css'>
+    <link href='/css/cssreset-min.css' rel='stylesheet' type='text/css'>
+    <link href='/css/main.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
 

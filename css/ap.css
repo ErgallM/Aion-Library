@@ -26,6 +26,7 @@
 .content-items .content-items-infoblock {
     text-align: right;
     color: #838281;
+    min-width: 135px;
 }
 .content-items .content-items-infoblock span {
     display: block;
@@ -102,6 +103,35 @@
     line-height: 30px;
     text-align: center;
 }
+
+#spiner {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: white;
+    opacity: 0.7;
+    z-index: 100;
+}
+#forUser {
+    position: fixed;
+    z-index: 101;
+    top: 50%;
+    left: 50%;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: -150px;
+    margin-left: -300px;
+    width: 600px;
+}
+
+#forUser .u-list {text-align: center;}
+#forUser .u-list button {font-size: 2em;}
+#forUser .u-list button span {color: red;}
+#forUser .close {float: right; margin-top: -10px;}
 
 
 /* forms.css */

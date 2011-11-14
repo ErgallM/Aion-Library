@@ -10,6 +10,13 @@ class Lang
         $this->_db = include('langs/main.php');
     }
 
+    public function addLangDb($name)
+    {
+        $db = include('langs/' . $name . '.php');
+        $this->_db = array_merge($this->_db, $db);
+        return this;
+    }
+
     public function translate($name, $lang = null)
     {
         if (null === $lang) {
@@ -20,6 +27,7 @@ class Lang
 
         $lname = mb_strtolower($name, 'utf-8');
         foreach ($this->_db as $key => $words) {
+            if (empty($words[$lang])) continue;
             if (mb_strtolower($key, 'utf-8') == $lname) return $words[$lang];
         }
 
