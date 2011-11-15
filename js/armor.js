@@ -10,7 +10,13 @@ var SearchItems = new Class({
     Implements: [Options],
     options: {
         panel: null,
-        items: null
+        items: null,
+
+        container: null,
+        filterForm: null,
+
+        scrollLoader: null,
+        request: null
     },
 
     initialize: function(options) {
@@ -26,7 +32,9 @@ var SearchItems = new Class({
                 this.setStyle('left', '');
             }
         });
+
         var that = this;
+
         this.options.items.addEvent('click', function() {
             var searchPanel = that.options.panel;
             if (0 >= searchPanel.getStyle('left').toInt()) {
@@ -34,6 +42,66 @@ var SearchItems = new Class({
             } else {
                 searchPanel.fireEvent('hide');
             }
+        });
+
+        this.options.scrollLoader = new ScrollSpy({
+            container: that.options.container,
+            min: that.options.container.getScrollSize().y - that.options.container.getSize().y - 150,
+            onEnter: function() {
+                console.log('enter');
+            }
+        });
+
+        this.options.request = new Request.JSON({
+            url: that.options.filterForm.get('action'),
+            method: 'post',
+            noCache: true,
+            onRequest: function() {
+                console.log('request start');
+            },
+            onSuccess: function(responseJSON) {
+                console.log('request success', responseJSON);
+
+                that.postHeader(responseJSON);
+                //reset the message
+                //loadMore.set('text','Load More');
+                //increment the current status
+                //start += desiredPosts;
+                //add in the new posts
+                //postHandler(responseJSON);
+                //spy calc!
+                //spyAct();
+            },
+            onFailure: function() {
+                console.log('request failure');
+            },
+            onComplete: function() {
+                console.log('request complete');
+            }
+        });
+
+        this.options.filterForm.addEvent('submit', function(e) {
+            that.options.request.send({
+                data: this.serialize(true)
+            });
+            
+            if (e) e.stop();
+            return false;
+        })
+    },
+
+    // Построение и вывод списка итемов в поисковое окно
+    postHeader: function(postsJSON) {
+        var that = this;
+        Object.each(postsJSON, function(post,i) {
+            new Element('div', {
+                html: '<i>' + i + '</i><br>' + post,
+                events: {
+                    click: function() {
+                        console.log(i, post);
+                    }
+                }
+            }).inject(that.options.container);
         });
     }
 })

@@ -15,4 +15,4 @@
 #man .itemPanel .item, #man .itemPanel-2 .item {clear: both; margin-bottom: 10px;}
 
 #searchItems {position: absolute; margin-top: -430px; width: 500px; left: -200px;}
-#posts  { height:300px; overflow:scroll; }
+#posts  { height:300px; overflow-y: auto; }

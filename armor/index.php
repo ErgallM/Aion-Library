@@ -67,7 +67,9 @@ $lang = new Lang();
 </div>
 
 <div id="searchItems">
-    <div><form action="db.php">
+    <div><form action="db.php" id="searchItemsForm">
+        <input id="start" name="start" value="0" type="hidden">
+        
         <label>Название предмена: <input type="text" name="name" value="Введите название" data-default-text="Введите название"></label>
         <img src="" id="loadSeparator" />
         <input type="submit" value="Найти" class="button">
@@ -79,19 +81,12 @@ $lang = new Lang();
     </div>
 </div>
 <script language="javascript">
-    Native.implement([Element, Window, Document, Events], {
-        oneEvent: function(type, fn) {
-            return this.addEvent(type, function() {
-                this.removeEvent(type, arguments.callee);
-                return fn.apply(this, arguments);
-            });
-        }
-    });
-    
     window.addEvent('domready', function() {
         window.s = new SearchItems({
             panel: $('searchItems'),
-            items: $$('.item')
+            items: $$('.item'),
+            container: $('posts'),
+            filterForm: $('searchItemsForm')
         })
     });
 </script>
