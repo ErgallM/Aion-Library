@@ -14,6 +14,11 @@ $lang = new Lang();
     <link href='/css/cssreset-min.css' rel='stylesheet' type='text/css'>
     <link href='/css/main.css' rel='stylesheet' type='text/css'>
     <link href='/css/armor.css' rel='stylesheet' type='text/css'>
+
+    <script language="javascript" src="/js/mootools-core-1.4.1-full-nocompat-yc.js"></script>
+    <script language="javascript" src="/js/Element.serialize.js"></script>
+    <script language="javascript" src="/js/ScrollSpy-yui-compressed.js"></script>
+    <script language="javascript" src="/js/armor.js"></script>
 </head>
 <body>
 
@@ -61,5 +66,34 @@ $lang = new Lang();
     <div class="clear"></div>
 </div>
 
+<div id="searchItems">
+    <div><form action="db.php">
+        <label>Название предмена: <input type="text" name="name" value="Введите название" data-default-text="Введите название"></label>
+        <img src="" id="loadSeparator" />
+        <input type="submit" value="Найти" class="button">
+        </form></div>
+
+    <div id="posts-container">
+        <div id="posts"></div>
+        <div id="load-more" class="button">Load More</div>
+    </div>
+</div>
+<script language="javascript">
+    Native.implement([Element, Window, Document, Events], {
+        oneEvent: function(type, fn) {
+            return this.addEvent(type, function() {
+                this.removeEvent(type, arguments.callee);
+                return fn.apply(this, arguments);
+            });
+        }
+    });
+    
+    window.addEvent('domready', function() {
+        window.s = new SearchItems({
+            panel: $('searchItems'),
+            items: $$('.item')
+        })
+    });
+</script>
 </body>
 </html>

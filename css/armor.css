@@ -1,73 +1,18 @@
-#man {
-    width: auto;
-    display: inline-block;
-    padding: 20px;
-    position: relative;
-    z-index: 100;
-    background: #fff;
-}
-#man .item {
-    border: 1px solid black;
-    width: 40px;
-    height: 40px;
-    float: left;
-    cursor: pointer;
-    background: #fff;
+#man {width: auto; display: inline-block; padding: 20px; position: relative; z-index: 100; background: #fff;}
+#man .item {border: 1px solid black; width: 40px; height: 40px; float: left; cursor: pointer; background: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; behavior: url(/PIE.htc);}
+#man .item:hover {box-shadow: 0px 0px 5px #06C; -webkit-box-shadow: 0px 0px 5px #06C; -moz-box-shadow: 0px 0px 5px #06C;}
 
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+#man .weapon-1, #man .weapon-2 {float: left; width: 70px; max-width: 70px; outline: hidden;}
+#man .weapon-1 {margin-right: 40px;}
+#man .weapon-2 {margin-left: 40px;}
+#man .weapon-1 a, #man .weapon-2 a {float: left; clear: left; display: inline-block; width: 25px; height: 25px; line-height: 25px; text-align: center; text-decoration: none;}
+#man .weapon-2 a {clear: none; float: none;}
+#man .weapon-1 div:last-child, #man .weapon-2 div:last-child {margin-top: -15px;}
+#man .weapon-2 div:first-child {margin-left: 25px;}
 
-    behavior: url(/PIE.htc);
-}
-#man .item:hover {
-    box-shadow: 0px 0px 5px #06C;
-    -webkit-box-shadow: 0px 0px 5px #06C;
-    -moz-box-shadow: 0px 0px 5px #06C;
-}
+#man .itemPanel, #man .itemPanel-2 {float: left; margin-left: 50px; margin-top: 10px;}
+#man .itemPanel-2 {margin-left: 78px;}
+#man .itemPanel .item, #man .itemPanel-2 .item {clear: both; margin-bottom: 10px;}
 
-#man .weapon-1, #man .weapon-2 {
-    float: left;
-    width: 70px;
-    max-width: 70px;
-    outline: hidden;
-}
-#man .weapon-1 {
-    margin-right: 40px;
-}
-#man .weapon-2 {
-    margin-left: 40px;
-}
-#man .weapon-1 a, #man .weapon-2 a {
-    float: left;
-    clear: left;
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-    text-align: center;
-    text-decoration: none;
-}
-#man .weapon-2 a {
-    clear: none;
-    float: none;
-}
-#man .weapon-1 div:last-child, #man .weapon-2 div:last-child {
-    margin-top: -15px;
-}
-#man .weapon-2 div:first-child {
-    margin-left: 25px;
-}
-
-#man .itemPanel, #man .itemPanel-2 {
-    float: left;
-    margin-left: 50px;
-    margin-top: 10px;
-}
-#man .itemPanel-2 {
-    margin-left: 78px;
-}
-#man .itemPanel .item, #man .itemPanel-2 .item {
-    clear: both;
-    margin-bottom: 10px;
-}
+#searchItems {position: absolute; margin-top: -430px; width: 500px; left: -200px;}
+#posts  { height:300px; overflow:scroll; }
