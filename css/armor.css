@@ -16,3 +16,36 @@
 
 #searchItems {position: absolute; margin-top: -430px; width: 500px; left: -200px;}
 #posts  { height:300px; overflow-y: auto; }
+
+#addItem {margin: 0px 20px;}
+#addItem > form > div {margin-bottom: 1em;}
+#addItem label {display: inline-block; min-width: 200px;}
+#addItem input[type=text], #addItem select {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+
+    padding: 5px;
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+
+    width: 200px;
+    background: #fff;
+
+    behavior: url(/PIE.htc);
+}
+#addItem input[type=text]:hover, #addItem input[type=text]:focus, #addItem select:hover, #addItem select:focus {
+    -webkit-box-shadow: #666 0px 0px 1px;
+    -moz-box-shadow: #666 0px 0px 1px;
+    box-shadow: #666 0px 0px 1px;
+
+    border: 1px solid #c6c6c6;
+}
+#addItem select {width: 212px;cursor: pointer;}
+#addItem select optgroup {background: #92cae4;}
+
+#addItem table {width: 600px; margin-bottom: 2em;}
+#addItem table caption {font-size: 1.2em; margin-bottom: 10px;}
+#addItem table thead tr td {padding-bottom: 5px;}
+#addItem table tbody tr td select {width: auto;}
