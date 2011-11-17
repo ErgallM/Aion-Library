@@ -32,7 +32,7 @@ $lang = new Lang();
     </ul>
 </div>
 
-<div id="addItem"><form action="add.php">
+<div id="addItem"><form action="add.php" id="addItemForm">
     <div><label for="name">Название: </label><input type="text" name="name" id="name"></div>
     <div><label for="q">Качество: </label><select id="q" name="q">
         <option value="0">Обычный</option>
@@ -89,22 +89,37 @@ $lang = new Lang();
     </select></div>
 
     <div>
-        <table class="skills"><caption>Основные скилы</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+        <table class="skills" data-items="0" data-type="main"><caption>Основные скилы</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
-            <tr><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
+            <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
 
-        <table class="skills"><caption>Дополнительные скилы</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+        <table class="skills" data-items="0" data-type="other"><caption>Дополнительные скилы</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
-            <tr><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
+            <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
 
-        <a href="#">1 Зачарование</a>
-        <a href="#">2 Зачарование</a>
+        <div><p><a href="#" id="skills-enchantment-1">1 Зачарование</a></p>
+        <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 1</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+            <tbody>
+
+            <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div><p><a href="#" id="skills-enchantment-2">2 Зачарование</a></p>
+        <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 2</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+            <tbody>
+
+            <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
+            </tbody>
+        </table>
+        </div>
     </div>
 
     <div><label>Магические камни</label></div>
@@ -114,12 +129,16 @@ $lang = new Lang();
     <div>
         <label for="godstone"><input id="godstone" name="godstone" type="checkbox"> Можно вставить божественный камень</label>
     </div>
+
+    <div><input type="submit" class="button" value="Сохранить"></div>
 </form></div>
 
 <script language="javascript">
     window.addEvent('domready', function() {
         window.a = new ArmorAdd({
             skillTables: $$('.skills'),
+            skillsEnchantment: $$('#skills-enchantment-1, #skills-enchantment-2'),
+            addItemForm: $('addItemForm'),
             skills: {
                 1: 'Атака',
                 2: 'Физическая атака',
