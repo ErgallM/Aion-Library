@@ -46,9 +46,9 @@ Element.implement({
             var type = el.type, names =[], name = el.name, current;
             if (!el.name || el.disabled || type == 'submit' || type == 'reset' || type == 'file' || type == 'image') return;
 
-            var value = (el.get('tag') == 'select') ? el.getSelected().map(function(opt){
-                return $(opt).get('value');
-            }) : ((type == 'radio' || type == 'checkbox') && !el.checked) ? null : el.get('value');
+            var value = (el.get('tag') == 'select') 
+                ? ((el.getSelected().length == 1) ? el.getSelected()[0].get('value') : el.getSelected().get('value'))
+                : ((type == 'radio' || type == 'checkbox') && !el.checked) ? null : el.get('value');
             
             if (!value || value.length < 1) return;
             

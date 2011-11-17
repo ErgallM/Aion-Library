@@ -32,7 +32,7 @@ $lang = new Lang();
     </ul>
 </div>
 
-<div id="addItem"><form action="add.php" id="addItemForm">
+<div id="addItem"><form action="db.php?t=add" id="addItemForm">
     <div><label for="name">Название: </label><input type="text" name="name" id="name"></div>
     <div><label for="q">Качество: </label><select id="q" name="q">
         <option value="0">Обычный</option>
@@ -95,36 +95,36 @@ $lang = new Lang();
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
-
+    </div>
+    <div>
         <table class="skills" data-items="0" data-type="other"><caption>Дополнительные скилы</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
-
-        <div><p><a href="#" id="skills-enchantment-1">1 Зачарование</a></p>
+    </div>
+    <div><p><a href="#" id="skills-enchantment-1">1 Зачарование</a></p>
         <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 1</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
-        </div>
+    </div>
 
-        <div><p><a href="#" id="skills-enchantment-2">2 Зачарование</a></p>
+    <div><p><a href="#" id="skills-enchantment-2">2 Зачарование</a></p>
         <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 2</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
             </tbody>
         </table>
-        </div>
     </div>
 
     <div><label>Магические камни</label></div>
-    <div style="margin-left:20px;"><label for="manastoneLvl">Уровень</label><input id="manastoneLvl" name="manastoneLvl" type="text"></div>
-    <div style="margin-left:20px;"><label for="manastoneCount">Количество</label><input id="manastoneCount" name="manastoneCount" type="text"></div>
+    <div style="margin-left:20px; width: 580px;"><label for="manastoneLvl">Уровень</label><input id="manastoneLvl" name="manastoneLvl" type="text"></div>
+    <div style="margin-left:20px; width: 580px;"><label for="manastoneCount">Количество</label><input id="manastoneCount" name="manastoneCount" type="text"></div>
 
     <div>
         <label for="godstone"><input id="godstone" name="godstone" type="checkbox"> Можно вставить божественный камень</label>

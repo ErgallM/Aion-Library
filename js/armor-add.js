@@ -5,6 +5,8 @@ var ArmorAdd = new Class({
         skillsEnchantment: null,
         addItemForm: null,
 
+        result: null,
+
         skills: {}
     },
 
@@ -30,10 +32,29 @@ var ArmorAdd = new Class({
             return false;
         });
 
-        this.options.addItemForm.addEvent('submit', function(e) {
-            var data = this.serialize(true);
+        this.options.request = new Request.JSON({
+            url: that.options.addItemForm.get('action'),
+            method: 'post',
+            noCache: true,
+            onRequest: function() {
+                console.log('request start');
+            },
+            onSuccess: function(responseJSON) {
+                console.log('request success', responseJSON);
+            },
+            onFailure: function() {
+                console.log('request failure');
+            },
+            onComplete: function() {
+                console.log('request complete');
+            }
+        });
 
-            
+        // Сохранение
+        this.options.addItemForm.addEvent('submit', function(e) {
+            that.options.request.send({
+                data: this.serialize(true)
+            });
 
             if (e) e.stop();
             return false;

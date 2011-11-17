@@ -18,7 +18,7 @@
 #posts  { height:300px; overflow-y: auto; }
 
 #addItem {margin: 0px 20px;}
-#addItem > form > div {margin-bottom: 1em;}
+#addItem > form > div {margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #f5f5f5; width: 600px;}
 #addItem label {display: inline-block; min-width: 200px;}
 #addItem input[type=text], #addItem select {
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -45,7 +45,7 @@
 #addItem select {width: 212px;cursor: pointer;}
 #addItem select optgroup {background: #92cae4;}
 
-#addItem table {width: 600px; margin-bottom: 2em;}
+#addItem table {width: 600px;}
 #addItem table caption {font-size: 1.2em; margin-bottom: 10px;}
 #addItem table thead tr td {padding-bottom: 5px;}
 #addItem table tbody tr td select {width: auto;}
