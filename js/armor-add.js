@@ -1,3 +1,28 @@
+Element.implement({
+    max: null,
+    maskInt: function(max) {
+        if (max) this.max = Number.from(max);
+
+        this.addEvents({
+            'keypress': function(e) {
+                if (e.code <= 31 || (e.code >= 48 && e.code <= 57)) {
+                    return true;
+                } else {
+                    if (e) e.stop();
+                    return false;
+                }
+            },
+            'keyup': function(e) {
+                if (null != this.max) {
+                    if (Number.from(this.get('value')) > this.max) {
+                        this.set('value', this.max);
+                    }
+                }
+            }
+        });
+    }
+})
+
 var ArmorAdd = new Class({
     Implements: [Options],
     options: {
@@ -37,16 +62,16 @@ var ArmorAdd = new Class({
             method: 'post',
             noCache: true,
             onRequest: function() {
-                console.log('request start');
+                //console.log('request start');
             },
             onSuccess: function(responseJSON) {
-                console.log('request success', responseJSON);
+                if (responseJSON.status) alert('Шмотка успешно добавлена');
             },
             onFailure: function() {
-                console.log('request failure');
+                alert('ошибка при добавлении');
             },
             onComplete: function() {
-                console.log('request complete');
+                //console.log('request complete');
             }
         });
 

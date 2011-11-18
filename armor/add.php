@@ -44,31 +44,31 @@ $lang = new Lang();
     <div><label for="lvl">Уровень (от 1 до 55): </label><input type="text" name="lvl" id="lvl"></div>
     <div><label for="type">Тип предмета: </label><select id="type" name="type">
         <optgroup label="Доспехи">
-            <option value="1">Тканые доспехи</option>
-            <option value="2">Кожаные доспехи</option>
-            <option value="3">Кольчужные доспехи</option>
-            <option value="4">Латные доспехи</option>
-            <option value="5">Щиты</option>
-            <option value="6">Головной убор</option>
+            <option value="1" data-slot="-2-3-4-5-6-">Тканые доспехи</option>
+            <option value="2" data-slot="-2-3-4-5-6-">Кожаные доспехи</option>
+            <option value="3" data-slot="-2-3-4-5-6-">Кольчужные доспехи</option>
+            <option value="4" data-slot="-2-3-4-5-6-">Латные доспехи</option>
+            <option value="5" data-slot="-12-">Щиты</option>
+            <option value="6" data-slot="-1-">Головной убор</option>
         </optgroup>
 
         <optgroup label="Оружие">
-            <option value="7">Копья</option>
-            <option value="8">Двуручные мечи</option>
-            <option value="9">Мечи</option>
-            <option value="10">Кинжалы</option>
-            <option value="11">Булавы</option>
-            <option value="12">Посохи</option>
-            <option value="13">Луки</option>
-            <option value="14">Орбы</option>
-            <option value="15">Гримуары</option>
+            <option value="7" data-slot="-13-">Копья</option>
+            <option value="8" data-slot="-13-">Двуручные мечи</option>
+            <option value="9" data-slot="-13-">Мечи</option>
+            <option value="10" data-slot="-12-">Кинжалы</option>
+            <option value="11" data-slot="-13-">Булавы</option>
+            <option value="12" data-slot="-13-">Посохи</option>
+            <option value="13" data-slot="-13-">Луки</option>
+            <option value="14" data-slot="-13-">Орбы</option>
+            <option value="15" data-slot="-13-">Гримуары</option>
         </optgroup>
         
         <optgroup label="Бижа">
-            <option value="16">Серьги</option>
-            <option value="17">Ожерелья</option>
-            <option value="18">Кольца</option>
-            <option value="19">Пояса</option>
+            <option value="16" data-slot="-8-">Серьги</option>
+            <option value="17" data-slot="-7-">Ожерелья</option>
+            <option value="18" data-slot="-9-">Кольца</option>
+            <option value="19" data-slot="-10-">Пояса</option>
         </optgroup>
     </select></div>
 
@@ -136,6 +136,25 @@ $lang = new Lang();
 
 <script language="javascript">
     window.addEvent('domready', function() {
+        $('lvl').maskInt(60);
+        $('manastoneLvl').maskInt(50);
+        $('manastoneCount').maskInt(6);
+        
+        $('type').addEvent('change', function() {
+            var slots = this.getSelected()[0].get('data-slot');
+            var value = null;
+            $$('#slot option').each(function(el) {
+                if (slots.indexOf('-' + el.get('value') + '-') < 0) {
+                    el.set('disabled', true);
+                } else {
+                    el.set('disabled', false);
+                    if (null == value) value = el;
+                }
+            });
+            if (null != value) $('slot').set('value', value.get('value'));
+        });
+        $('type').fireEvent('change');
+        
         window.a = new ArmorAdd({
             skillTables: $$('.skills'),
             skillsEnchantment: $$('#skills-enchantment-1, #skills-enchantment-2'),
