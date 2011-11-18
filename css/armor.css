@@ -49,3 +49,11 @@
 #addItem table caption {font-size: 1.2em; margin-bottom: 10px;}
 #addItem table thead tr td {padding-bottom: 5px;}
 #addItem table tbody tr td select {width: auto;}
+
+#q option {background: #14222A; height: 3em; line-height: 3em; border-bottom: 1px solid #273F4D;}
+#q option:last-child {border-bottom: none;}
+.q {color: #fff;}
+.q1 {color: #69E15E !important;}
+.q2 {color: #4CCFFF !important;}
+.q3 {color: #FFC103 !important;}
+.q4 {color: #FF8033 !important;}

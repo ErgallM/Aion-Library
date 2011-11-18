@@ -6,6 +6,29 @@ var Armor = new Class({
     }
 });
 
+var Item = new Class({
+    Implements: [Options, Events],
+    options: {
+        id: null,
+        name: '',
+        lvl: 0,
+        type: 0,
+        slot: 0,
+        q: 0,
+        skills: {},
+        manastoneLvl: 0,
+        manastoneCount: 0,
+        godstone: false,
+        price: {},
+        icon: '',
+        image: ''
+    },
+
+    initialize: function(options) {
+        this.setOptions(options);
+    }
+})
+
 var SearchItems = new Class({
     Implements: [Options],
     options: {
@@ -94,6 +117,8 @@ var SearchItems = new Class({
     postHeader: function(postsJSON) {
         var that = this;
         Object.each(postsJSON, function(post,i) {
+            var item = new Item(post);
+            console.log(item);
             new Element('div', {
                 html: '<i>' + i + '</i><br>' + post,
                 events: {

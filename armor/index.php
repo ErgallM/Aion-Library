@@ -67,7 +67,7 @@ $lang = new Lang();
 </div>
 
 <div id="searchItems">
-    <div><form action="db.php" id="searchItemsForm">
+    <div><form action="db.php?t=get" id="searchItemsForm">
         <input id="start" name="start" value="0" type="hidden">
         
         <label>Название предмена: <input type="text" name="name" value="Введите название" data-default-text="Введите название"></label>

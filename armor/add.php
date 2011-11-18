@@ -35,11 +35,11 @@ $lang = new Lang();
 <div id="addItem"><form action="db.php?t=add" id="addItemForm">
     <div><label for="name">Название: </label><input type="text" name="name" id="name"></div>
     <div><label for="q">Качество: </label><select id="q" name="q">
-        <option value="0">Обычный</option>
-        <option value="1">Редкий</option>
-        <option value="2">Легендарный</option>
-        <option value="3">Уникальный</option>
-        <option value="4">Эпический</option>
+        <option value="0" class="q">Обычный</option>
+        <option value="1" class="q1">Редкий</option>
+        <option value="2" class="q2">Легендарный</option>
+        <option value="3" class="q3">Уникальный</option>
+        <option value="4" class="q4">Эпический</option>
     </select></div>
     <div><label for="lvl">Уровень (от 1 до 55): </label><input type="text" name="lvl" id="lvl"></div>
     <div><label for="type">Тип предмета: </label><select id="type" name="type">
@@ -126,9 +126,10 @@ $lang = new Lang();
     <div style="margin-left:20px; width: 580px;"><label for="manastoneLvl">Уровень</label><input id="manastoneLvl" name="manastoneLvl" type="text"></div>
     <div style="margin-left:20px; width: 580px;"><label for="manastoneCount">Количество</label><input id="manastoneCount" name="manastoneCount" type="text"></div>
 
-    <div>
-        <label for="godstone"><input id="godstone" name="godstone" type="checkbox"> Можно вставить божественный камень</label>
-    </div>
+    <div><label for="godstone"><input id="godstone" name="godstone" type="checkbox" value="1"> Можно вставить божественный камень</label></div>
+
+    <div><label for="icon">Иконка</label><input id="icon" name="icon" type="text"></div>
+    <div><label for="image">Картинка</label><input id="image" name="image" type="text"></div>
 
     <div><input type="submit" class="button" value="Сохранить"></div>
 </form></div>

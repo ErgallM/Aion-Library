@@ -54,7 +54,11 @@ var ArmorAdd = new Class({
         this.options.addItemForm.addEvent('submit', function(e) {
             var data = this.serialize(true);
 
-            if (!data.name || !data.lvl
+            if (!data.name || !data.lvl) {
+                alert('Вы не ввели название или уровень');
+                if (e) e.stop();
+                return false;
+            }
 
             that.options.request.send({
                 'data': data

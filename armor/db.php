@@ -17,5 +17,17 @@ Zend_Db_Table::setDefaultAdapter(new Zend_Db_Adapter_Pdo_Mysql(array(
 if ('add' == $t) {
 
     $table = new Model_Item_User();
-    return $table->addItem($_POST);
+    echo json_encode(array('status' => $table->addItem($_POST)));
+} elseif ('get-user-item' == $t) {
+    $table = new Model_Item_User();
+    $id = $_GET['id'];
+
+    echo json_encode($table->getItem($id));
+
+
+} elseif ('get' == $t) {
+    // Список итемов для armor/index.php
+
+    $table = new Model_Item();
+    echo json_encode($table->getItemsList($_POST));
 }
