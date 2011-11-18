@@ -13,3 +13,8 @@ class Model_Item extends Zend_Db_Table
         return $row->save();
     }
 }
+
+class Model_Item_User extends Model_Item
+{
+    protected $_name = 'items-useradd';
+}

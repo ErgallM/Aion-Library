@@ -16,7 +16,6 @@ Zend_Db_Table::setDefaultAdapter(new Zend_Db_Adapter_Pdo_Mysql(array(
 
 if ('add' == $t) {
 
-    $table = new Model_Item();
-    echo $table->addItem($_POST);
-
+    $table = new Model_Item_User();
+    return $table->addItem($_POST);
 }

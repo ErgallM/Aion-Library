@@ -52,8 +52,12 @@ var ArmorAdd = new Class({
 
         // Сохранение
         this.options.addItemForm.addEvent('submit', function(e) {
+            var data = this.serialize(true);
+
+            if (!data.name || !data.lvl
+
             that.options.request.send({
-                data: this.serialize(true)
+                'data': data
             });
 
             if (e) e.stop();
