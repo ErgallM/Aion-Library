@@ -21,11 +21,85 @@ var Item = new Class({
         godstone: false,
         price: {},
         icon: '',
-        image: ''
+        image: '',
+
+        /** Точка */
+        point: 0
     },
+
+    childItem: null,
 
     initialize: function(options) {
         this.setOptions(options);
+    },
+
+    /**
+     * @return Element
+     */
+    createCompareDialog: function() {
+        var item = this.options;
+        var compare = new Element('div#compare-' + item.id + '.compare');
+
+        /* Start block Name */
+        var blockName = new Element('div.block');
+        var title = new Element('h3.q' + item.q, {html: item.name});
+        var titleSpan = new Element('span');
+        var titleSpanI = new Element('i', {html: item.point}).inject(titleSpan);
+        var titleSpanPointUp = new Element('button.up', {
+            click: function () {
+                console.log(item.point);
+            }
+        }).inject(titleSpan);
+        var titleSpanPointDown = new Element('button.down', {
+            click: function() {
+                console.log(item.point);
+            }
+        }).inject(titleSpan);
+        titleSpan.inject(title);
+
+        title.inject(blockName);
+
+        new Elements({
+            'div.type': {html: '<span>Тип: </span>' + item.type},
+            'div': {html: 'Можно использовать с ' + item.lvl + '-го уровня.'}
+        }).inject(blockName);
+
+        blockName.inject(compare);
+        /* End block Name */
+
+
+        /* start Skills Block */
+        Object.each(item.skills, function(skills, skillType) {
+            var blockSkills = new Element('div.block', {html: 'Type=' + skillType});
+
+            Object.each(skills, function(skill) {
+                new Element('div.skills', {html: '<span>' + skill.name + '</span> ' + skill.value}).inject(blockSkills);
+            });
+
+            new Element('div.clear').inject(blockSkills);
+            blockSkills.inject(compare);
+        });
+        /* end Skills Block */
+
+        /* start Manastone Block */
+        if (item.manastoneCount) {
+            var blockManastone = new Element('div.block');
+            new Element('div.title', {html: 'Можно усилить магическими камнями ' + item.manastoneLvl + '-го уровня и ниже.'}).inject(blockManastone);
+            for (var i = 0; i < item.manastoneCount; i++) {
+                new Element('div.manastone').inject(blockManastone);
+            }
+            new Element('div.clear').inject(blockManastone);
+            blockManastone.inject(compare);
+        }
+        /* end Manastone Block */
+
+        /* start Godstone */
+        if (item.godstone) {
+            new Element('div.block', {html: 'Можно вставить божественный камень.'}).inject(compare);
+        }
+        /* end Godstone */
+
+        return compare;
     }
 })
 
@@ -118,9 +192,10 @@ var SearchItems = new Class({
         var that = this;
         Object.each(postsJSON, function(post,i) {
             var item = new Item(post);
-            console.log(item);
+
             new Element('div', {
-                html: '<i>' + i + '</i><br>' + post,
+                html: '<img src="' + item.options.icon + '"> ' + item.options.name,
+                class: 'q' + item.options.q,
                 events: {
                     click: function() {
                         console.log(i, post);

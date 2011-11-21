@@ -80,6 +80,50 @@ $lang = new Lang();
         <div id="load-more" class="button">Load More</div>
     </div>
 </div>
+
+<div id="compare" class="compare">
+    <div class="block">
+        <h3 class="q4">
+            Орб Рудры
+            <span><i>+1</i> <button class="up"></button><button class="down"></button></span>
+        </h3>
+        <div class="type"><span>Тип</span>Орбы</div>
+        <div>[Обмен невозможен], [Невозможно положить на склад аккаунта], [Невозможно положить на склад легиона]</div>
+        <div>Можно использовать с 55-го уровня.</div>
+    </div>
+
+    <div class="block">
+        <div class="title">Медленное оружие, кол-во ударов: 1 (Стихия огня)</div>
+        <div class="skills"><span>Атака</span> 270 - 330</div>
+        <div class="skills"><span>Скор. атаки</span> 2.2</div>
+        <div class="skills"><span>Сила магии</span> 860</div>
+        <div class="skills"><span>Точн. магии</span> 391</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="block">
+        <div class="skills"><span>Макс. HP</span> 509</div>
+        <div class="skills"><span>Сила магии</span> 85</div>
+        <div class="skills"><span>М. крит.</span> 20</div>
+        <div class="skills"><span>Скор. магии</span> 20%</div>
+        <div class="skills"><span>Макс. MP</span>898</div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="block">
+        <div class="title">Можно усилить магическими камнями 60-го уровня и ниже.</div>
+        <div class="manastone"></div>
+        <div class="manastone"></div>
+        <div class="manastone"></div>
+        <div class="manastone"></div>
+        <div class="manastone"></div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="block">
+        Можно вставить божественный камень.
+    </div>
+</div>
 <script language="javascript">
     window.addEvent('domready', function() {
         window.s = new SearchItems({

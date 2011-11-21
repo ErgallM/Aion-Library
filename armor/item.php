@@ -2,7 +2,7 @@
 class Model_Item extends Zend_Db_Table
 {
     protected $_name = 'items';
-    protected $_cols = array('id', 'name', 'lvl', 'type', 'slot', 'q', 'skills', 'manastoneLvl', 'manastoneCount', 'godstone', 'price', 'icon', 'image');
+    protected $_cols = array('id', 'name', 'lvl', 'type', 'slot', 'q', 'skills', 'manastoneLvl', 'manastoneCount', 'godstone', 'price', 'icon', 'image', 'links');
 
     public function addItem($data)
     {
@@ -19,6 +19,7 @@ class Model_Item extends Zend_Db_Table
             'price'             => $this->filter($data['price']),
             'icon'              => $this->filter($data['icon']),
             'image'             => $this->filter($data['image']),
+            'links'             => $this->filter($data['links'])
         );
 
         $data['skills'] = serialize($data['skills']);
