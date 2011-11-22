@@ -2,7 +2,20 @@ var Armor = new Class({
     Implements: [Options],
 
     options: {
+        skills: {},
 
+        searchItems: {}
+    },
+
+    searchItems: null,
+
+    initialize: function(options) {
+        this.setOptions(options);
+
+        if (this.options.searchItems) {
+            this.searchItems = new SearchItems(this.options.searchItems);
+            this.searchItems.armor = this;
+        }
     }
 });
 
@@ -27,6 +40,8 @@ var Item = new Class({
         point: 0
     },
 
+    armor: null,
+
     childItem: null,
 
     initialize: function(options) {
@@ -37,8 +52,32 @@ var Item = new Class({
      * @return Element
      */
     createCompareDialog: function() {
+        var that = this;
         var item = this.options;
-        var compare = new Element('div#compare-' + item.id + '.compare');
+        var compare = new Element('div#compare-' + item.id + '.compare.hide');
+
+        var closeButton = new Element('button', {
+            events: {
+                click: function(e) {
+                    compare.addClass('hide');
+                    
+                    if (e) e.stop();
+                    return false;
+                },
+                show: function(e) {
+                    that.show();
+
+                    if (e) e.stop();
+                    return false;
+                },
+                hide: function(e) {
+                    that.hide();
+
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(new Element('div.close').inject(compare));
 
         /* Start block Name */
         var blockName = new Element('div.block');
@@ -46,13 +85,17 @@ var Item = new Class({
         var titleSpan = new Element('span');
         var titleSpanI = new Element('i', {html: item.point}).inject(titleSpan);
         var titleSpanPointUp = new Element('button.up', {
-            click: function () {
-                console.log(item.point);
+            events: {
+                click: function () {
+                    that.calculatePoint(1);
+                }
             }
         }).inject(titleSpan);
         var titleSpanPointDown = new Element('button.down', {
-            click: function() {
-                console.log(item.point);
+            events:{
+                click: function() {
+                    that.calculatePoint(-1);
+                }
             }
         }).inject(titleSpan);
         titleSpan.inject(title);
@@ -67,13 +110,14 @@ var Item = new Class({
         blockName.inject(compare);
         /* End block Name */
 
+        var armorSkills = this.armor.options.skills;
 
         /* start Skills Block */
         Object.each(item.skills, function(skills, skillType) {
-            var blockSkills = new Element('div.block', {html: 'Type=' + skillType});
+            var blockSkills = new Element('div.block'/*, {html: 'Type=' + skillType}*/);
 
             Object.each(skills, function(skill) {
-                new Element('div.skills', {html: '<span>' + skill.name + '</span> ' + skill.value}).inject(blockSkills);
+                new Element('div.skills', {html: '<span>' + armorSkills[skill.name] + '</span> ' + skill.value}).inject(blockSkills);
             });
 
             new Element('div.clear').inject(blockSkills);
@@ -99,7 +143,66 @@ var Item = new Class({
         }
         /* end Godstone */
 
+        /* start ButtonPanel */
+        var buttonPanel = new Element('div.block.buttonsPanel');
+        new Element('button.button', {
+            text: 'Очистить',
+            events: {
+                click: function(e) {
+
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(buttonPanel);
+        new Element('button.button', {
+            text: 'Одень | Снять',
+            events: {
+                click: function(e) {
+
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(buttonPanel);
+        new Element('button.button', {
+            text: 'Отмена',
+            events: {
+                click: function(e) {
+                    that.hide();
+                    
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(buttonPanel);
+        buttonPanel.inject(compare);
+        /* end ButtonPanel */
+
+
         return compare;
+    },
+
+    /** Show item compare dialog */
+    show: function() {
+        var item = (null == $('compare-' + this.options.id)) ? this.createCompareDialog().inject(document.body) : $('compare-' + this.options.id);
+        item.removeClass('hide');
+        return item;
+    },
+    /** Hide item compare dialog */
+    hide: function() {
+        var item = $('compare-' + this.options.id);
+        if (item) item.addClass('hide');
+        return item;
+    },
+
+    /** Calculate point */
+    calculatePoint: function(point) {
+        this.options.point += Number.from(point);
+        if (this.options.point < 0) this.options.point = 0;
+        if (this.options.point > 15) this.options.point = 15;
+
+        console.log(this.options.point);
     }
 })
 
@@ -192,13 +295,16 @@ var SearchItems = new Class({
         var that = this;
         Object.each(postsJSON, function(post,i) {
             var item = new Item(post);
+            item.armor = that.armor;
 
             new Element('div', {
                 html: '<img src="' + item.options.icon + '"> ' + item.options.name,
                 class: 'q' + item.options.q,
                 events: {
                     click: function() {
-                        console.log(i, post);
+                        $$('.compare').fireEvent('hide');
+                        
+                        item.show();
                     }
                 }
             }).inject(that.options.container);

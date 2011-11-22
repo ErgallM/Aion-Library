@@ -81,7 +81,8 @@ $lang = new Lang();
     </div>
 </div>
 
-<div id="compare" class="compare">
+<div id="compare" class="compare hide">
+    <div class="close"><button></button></div>
     <div class="block">
         <h3 class="q4">
             Орб Рудры
@@ -123,14 +124,66 @@ $lang = new Lang();
     <div class="block">
         Можно вставить божественный камень.
     </div>
+
+    <div class="block buttonsPanel">
+        <button class="button">Очистить</button>
+        <button class="button">Одеть</button>
+        <button class="button">Снять</button>
+    </div>
 </div>
 <script language="javascript">
     window.addEvent('domready', function() {
-        window.s = new SearchItems({
-            panel: $('searchItems'),
-            items: $$('.item'),
-            container: $('posts'),
-            filterForm: $('searchItemsForm')
+        window.a = new Armor({
+            searchItems: {
+                panel: $('searchItems'),
+                items: $$('.item'),
+                container: $('posts'),
+                filterForm: $('searchItemsForm')
+            },
+            skills: {
+                1: 'Атака',
+                2: 'Физическая атака',
+                3: 'Маг. атака',
+                4: 'Скор. атаки',
+                5: 'Скор. магии',
+                6: 'Точность',
+                7: 'Точн. магии',
+                8: 'Ф. крит.',
+                9: 'М. крит.',
+                10: 'Сила магии',
+                11: 'Сила исцелен.',
+
+                12: 'Парир.',
+                13: 'Уклонение',
+                14: 'Концентрац.',
+                15: 'Блок урона',
+                16: 'Блок щитом',
+                17: 'Блок ф. крит.',
+                18: 'Блок м. крит.',
+
+                19: 'Физ. защита',
+                20: 'Маг. защита',
+                21: 'Защ. от земли',
+                22: 'Защ. от возд.',
+                23: 'Защ. от воды',
+                24: 'Защ. от огня',
+                25: 'Защита от ф. крит.',
+
+                26: 'Сопротивление оглушению',
+                27: 'Сопротивление опрокидыванию',
+                28: 'Сопротивление отталкиванию',
+
+                29: 'Макс. HP',
+                30: 'Макс. MP',
+
+                31: 'Скор. полета',
+                32: 'Время полета',
+                33: 'Скор. движ.',
+
+                34: 'Агрессия',
+
+                35: 'ЛВК'
+            }
         })
     });
 </script>

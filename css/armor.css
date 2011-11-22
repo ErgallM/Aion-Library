@@ -76,11 +76,11 @@
 .compare h3 button.up {background: url('/images/up.png') center center no-repeat;}
 .compare h3 button.down {background: url('/images/down.png') center center no-repeat;}
 .compare h3 span {margin-left: 20px;}
-.compare h3 span i {display: inline-block; width: 25px; text-align: right;}
+.compare h3 span i {display: inline-block; width: 25px; text-align: right; margin-right: 5px;}
 
 
 .compare {
-    background: url('http://ru.aiondatabase.com/res/icons/40/icon_item_orb_e01.png') 5px 5px no-repeat;
+    background: url('http://ru.aiondatabase.com/res/icons/40/icon_item_orb_e01.png') 5px 5px no-repeat #fff;
     width: 500px;
     position: absolute;
     top: 100px;
@@ -91,6 +91,11 @@
     padding: 5px;
     padding-left: 50px;
     padding-right: 30px;
+
+    -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+    box-shadow: 0px 0px 5px #666; -webkit-box-shadow: 0px 0px 5px #666; -moz-box-shadow: 0px 0px 5px #666;
+    
+    behavior: url(/PIE.htc);
 }
 .compare .block {
     border-bottom: 1px solid #666;
@@ -110,3 +115,10 @@
 .compare .block .manastone.green {background-image: url('/images/manastone/hp-green.png');}
 .compare .block .type {text-align: right;}
 .compare .block .type span {float: left;}
+
+.compare div.close {float: right;}
+.compare div.close button {border: none; background: url('/images/closeButtons.png') 0px 0px; height: 14px; width: 14px; cursor: pointer; margin-top: 5px; margin-right: -20px;}
+.compare div.close button:hover {background-position: -14px 0px;}
+.compare div.close button:active {background-position: -28px 0px;}
+
+.compare .buttonsPanel {text-align: right;}
