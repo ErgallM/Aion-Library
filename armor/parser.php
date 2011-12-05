@@ -155,15 +155,222 @@ class Model_Noparserdata extends Zend_Db_Table
     }
 }
 
-class Model_Parser
+class Model_Parser extends Zend_Db_Table
 {
-    /** @var Zend_Db_Table */
-    protected $_db = null;
+    protected $_db = 'items';
+    protected $_cols = array('id', 'name', 'lvl', 'type', 'slot', 'q', 'skills', 'manastoneLvl', 'manastoneCount', 'godstone', 'price', 'icon', 'image', 'links');
 
-    /** @var string */
-    protected $_folder = '/home/eaglemoor/AionParser/db';
+    public static $_type = array(
+        // Доспехи
+        1 => 'Тканые доспехи',
+        2 => 'Кожаные доспехи',
+        3 => 'Кольчужные доспехи',
+        4 => 'Латные доспехи',
+        5 => 'Щиты',
+        6 => 'Головной убор',
+
+        // Оружие
+        7 => 'Копья',
+        8 => 'Двуручные мечи',
+        9 => 'Мечи',
+        10 => 'Кинжалы',
+        11 => 'Булавы',
+        12 => 'Посохи',
+        13 => 'Луки',
+        14 => 'Орбы',
+        15 => 'Гримуары',
+
+        // Бижа
+        16 => 'Серьги',
+        17 => 'Ожерелья',
+        18 => 'Кольца',
+        19 => 'Пояса',
+    );
+    public static $_slot = array(
+        1 => 'Голова',
+        2 => 'Торс',
+        3 => 'Штаны',
+        4 => 'Ботинки',
+        5 => 'Наплечники',
+        6 => 'Перчатки',
+        7 => 'Ожерелья',
+        8 => 'Серьги',
+        9 => 'Кольца',
+        10 => 'Пояс',
+        11 => 'Крыло',
+        12 => 'Главная или Вторая Рука',
+        13 => 'Главная Рука'
+    );
+    public static $_skills = array(
+        1 => 'Атака',
+        2 => 'Физическая атака',
+        3 => 'Маг. атака',
+        4 => 'Скор. атаки',
+        5 => 'Скор. магии',
+        6 => 'Точность',
+        7 => 'Точн. магии',
+        8 => 'Ф. крит.',
+        9 => 'М. крит.',
+        10 => 'Сила магии',
+        11 => 'Сила исцелен.',
+
+        12 => 'Парир.',
+        13 => 'Уклонение',
+        14 => 'Концентрац.',
+        15 => 'Блок урона',
+        16 => 'Блок щитом',
+        17 => 'Блок ф. крит.',
+        18 => 'Блок м. крит.',
+
+        19 => 'Физ. защита',
+        20 => 'Маг. защита',
+        21 => 'Защ. от земли',
+        22 => 'Защ. от возд.',
+        23 => 'Защ. от воды',
+        24 => 'Защ. от огня',
+        25 => 'Защита от ф. крит.',
+
+        26 => 'Сопротивление оглушению',
+        27 => 'Сопротивление опрокидыванию',
+        28 => 'Сопротивление отталкиванию',
+
+        29 => 'Макс. HP',
+        30 => 'Макс. MP',
+
+        31 => 'Скор. полета',
+        32 => 'Время полета',
+        33 => 'Скор. движ.',
+
+        34 => 'Агрессия',
+
+        35 => 'ЛВК'
+    );
+
+    /**
+     * @var Model_Noparserdata
+     */
+    public $noParserDataTable;
+
+    /**
+     * @todo Нужно сделать систему сетов
+     */
+
+    public function parserItem($itemId)
+    {
+        $itemParse = $this->noParserDataTable->fetchRow('id = ' . $itemId);
+        if (!$itemParse) return false;
+
+        $ru = $this->parserItemRu($itemParse->ru);
+    }
+
+    private function parserItemRu($data)
+    {
+        $q = new Zend_Dom_Query($data);
+        $table = $q->query('table.aion_tooltip_container table tr td');
+        if (!$table->count()) return false;
+
+        $blockId = 1;
+        $blocks = array();
+        foreach ($table as $tr) {
+            /** @var $tr DOMElement */
+            $trimText = trim($tr->textContent, ' ');
+            $noEmpty = !empty($trimText);
+
+            //echo "$blockId - \{$tr->textContent\} - $noEmpty\n";
+
+            if ($noEmpty) {
+                if (!isset($blocks[$blockId])) $blocks[$blockId] = array();
+                $blocks[$blockId][] = $trimText;
+            }
+
+            if ($tr->getElementsByTagName('hr')->length) $blockId++;
+        }
+
+        $result = array();
+
+        // name
+        $result['name'] = array_shift($blocks[1]);
+
+        $skills = array();
+        $skillsType = 'main';
+
+        $complect = array(
+            'name' => '',
+            'items' => ''
+        );
+
+        $flashParseComplect = false;
+
+        foreach ($blocks as $blockId => $block) {
+            while (sizeof($block)) {
+                $tag = array_shift($block);
+                //echo "$blockId - $tag\n";
+
+                // type
+                if ('Тип' == $tag) {
+                    $type = array_shift($block);
+                    if (false !== ($typeId = array_search($type, self::$_type))) {
+                        $result['type'] = $typeId;
+                    } else {
+                        echo "PARSER ERROR {blockId: $blockId, tag: $tag, value: $type, not found in types\n";
+                    }
+                }
+
+                // block 1
+                if (1 == $blockId) {
+                    if (0 === strpos($tag, 'Можно использовать с ')) {
+                        // lvl
+                        $result['lvl'] = (int) str_replace(array('Можно использовать с ', '-го уровня.'), '', $tag);
+                    } elseif (false !== strpos($tag, '[')) {
+                        // other text
+                    }
+                }
+
+                if (false !== ($skillId = array_search($tag, self::$_skills))) {
+                    if (!isset($skills[$skillsType])) $skills[$skillsType] = array();
+
+                    $value = array_shift($block);
+                    $skills[$skillsType][$skillId] = $value;
+                }
+
+                if (0 === strpos($tag, 'Можно усилить магическими камнями ')) {
+                    $result['manastoneLvl'] = (int) str_replace(array('Можно усилить магическими камнями ', '-го уровня и ниже.'), '', $tag);
+                }
+
+                if ('Можно вставить божественный камень.' == $tag) {
+                    $result['godstone'] = true;
+                }
+
+                if ('Надев все предметы комплекта, вы получите дополнительный эффект.' == $tag) {
+                    $flashParseComplect = true;
+                }
+
+                if ($flashParseComplect && false !== strpos($tag, 'комплект')) {
+                    $complect['name'] = $tag;
+                    // @todo парсинг комплекта
+                }
+            }
+
+            if (sizeof($skills[$skillsType])) {
+                if ('main' == $skillsType) $skillsType = 'other';
+            }
+        }
+        $result['skills'] = $skills;
+
+        // manastoneCount
+        $result['manastoneCount'] = (empty($result['manastoneLvl'])) ? 0 : $q->query('td.aion_item_manastone')->count();
+
+        var_dump($result);
+    }
 }
 
 $options = Cli::getParams(array('id' => null), $argc, $argv);
+/*
 $parser = new Model_Noparserdata();
 $parser->noparserdataToDb($options['id']);
+*/
+
+$parser = new Model_Parser();
+$parser->noParserDataTable = new Model_Noparserdata();
+
+$parser->parserItem('100500698');
