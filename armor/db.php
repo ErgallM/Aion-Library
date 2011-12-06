@@ -23,8 +23,6 @@ if ('add' == $t) {
     $id = $_GET['id'];
 
     echo json_encode($table->getItem($id));
-
-
 } elseif ('get' == $t) {
     // Список итемов для armor/index.php
 

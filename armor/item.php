@@ -2,7 +2,7 @@
 class Model_Item extends Zend_Db_Table
 {
     protected $_name = 'items';
-    protected $_cols = array('id', 'name', 'lvl', 'type', 'slot', 'q', 'skills', 'manastoneLvl', 'manastoneCount', 'godstone', 'price', 'icon', 'image', 'links');
+    protected $_cols = array('id', 'name', 'lvl', 'type', 'slot', 'q', 'skills', 'manastoneLvl', 'manastoneCount', 'godstone', 'longattack', 'complect', 'price', 'icon', 'image', 'links', 'textBlock');
 
     public function addItem($data)
     {
@@ -16,14 +16,19 @@ class Model_Item extends Zend_Db_Table
             'manastoneLvl'      => $this->filter($data['manastoneLvl'], 'int'),
             'manastoneCount'    => $this->filter($data['manastoneCount'], 'int'),
             'godstone'          => $this->filter($data['godstone'], 'bool'),
+            'longattack'        => $this->filter($data['longattack'], 'bool'),
+            'complect'          => $this->filter($data['complect']),
             'price'             => $this->filter($data['price']),
             'icon'              => $this->filter($data['icon']),
             'image'             => $this->filter($data['image']),
-            'links'             => $this->filter($data['links'])
+            'links'             => $this->filter($data['links']),
+            'textBlock'         => $this->filter($data['textBlock']),
         );
 
         $data['skills'] = serialize($data['skills']);
         $data['price'] = serialize($data['price']);
+        $data['complect'] = serialize($data['complect']);
+        $data['textBlock'] = serialize($data['textBlock']);
 
         $row = $this->createRow($data);
         return $row->save();
@@ -37,6 +42,8 @@ class Model_Item extends Zend_Db_Table
             $data = $row->toArray();
             $data['skills'] = unserialize($data['skills']);
             $data['price'] = unserialize($data['price']);
+            $data['complect'] = unserialize($data['complect']);
+            $data['textBlock'] = unserialize($data['textBlock']);
 
             return $data;
         }
@@ -56,17 +63,18 @@ class Model_Item extends Zend_Db_Table
         $sql = $this->getAdapter()->select()->from($this->_name);
         /** @var Zend_Db_Select $sql */
         foreach ($data as $key => $value) {
-            if (isset($this->_cols[$key])) {
+            if (array_search($key, $this->_cols)) {
                 $value = $this->filter($value);
                 $sql->where("{$key} LIKE ?", '%' . $value . '%');
             }
         }
-        $sql->limit($count, $start);
-        
+        $sql->limit($count, $start)->order('type')->order('q DESC')->order('lvl DESC')->order('name');
         $result = $this->getAdapter()->query($sql)->fetchAll();
         foreach ($result as &$row) {
             $row['skills'] = unserialize($row['skills']);
             $row['price'] = unserialize($row['price']);
+            $row['complect'] = unserialize($row['complect']);
+            $row['textBlock'] = unserialize($row['textBlock']);
         }
         return $result;
     }
@@ -94,6 +102,7 @@ class Model_Item extends Zend_Db_Table
                     $data = $filterBool->filter($data);
                 break;
         }
+        return $data;
     }
 }
 

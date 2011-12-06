@@ -105,7 +105,7 @@ $lang = new Lang();
         </table>
     </div>
     <div><p><a href="#" id="skills-enchantment-1">1 Зачарование</a></p>
-        <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 1</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+        <table class="skills hide" data-items="0" data-type="enchantment-1"><caption>Зачарование 1</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
@@ -114,7 +114,7 @@ $lang = new Lang();
     </div>
 
     <div><p><a href="#" id="skills-enchantment-2">2 Зачарование</a></p>
-        <table class="skills hide" data-items="0" data-type="other"><caption>Зачарование 2</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
+        <table class="skills hide" data-items="0" data-type="enchantment-2"><caption>Зачарование 2</caption><thead><tr><td>Название</td><td colspan="2">Значение</td></tr></thead>
             <tbody>
 
             <tr data-nodel="1"><td colspan="3"><a href="#" class="button add">Добавить</a></td></tr>
@@ -201,7 +201,10 @@ $lang = new Lang();
 
                 34: 'Агрессия',
 
-                35: 'ЛВК'
+                35: 'ЛВК',
+
+                36:'PvP Атака Отношение',
+                37:'PvP множитель'
             }
         })
     });
