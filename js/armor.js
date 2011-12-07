@@ -509,7 +509,7 @@ var SearchItems = new Class({
             item.armor = that.armor;
 
             new Element('div', {
-                html: '<img src="' + item.options.icon + '"> ' + item.options.name,
+                html: '<img src="/images/items/icons/' + item.options.icon + '"> ' + item.options.name,
                 class: 'q' + item.options.q,
                 events: {
                     click: function() {

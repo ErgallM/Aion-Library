@@ -19,11 +19,12 @@
 #posts div {
     height: 40px;
     line-height: 40px;
-    border: 1px solid gray;
+    border-bottom: 1px solid gray;
     background: #14222A;
-    padding-left: 50px;
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    padding: 3px 0px;
+    overflow-x: hidden;
 }
 #posts div img {
     float: left;
