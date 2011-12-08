@@ -59,6 +59,7 @@ var Item = new Class({
         var that = this;
         var item = this.options;
         var compare = new Element('div#compare-' + item.id + '.compare.hide');
+        if (item.icon) compare.setStyle('background-image', 'url("/images/items/icons/' + item.icon + '")');
 
         var closeButton = new Element('button', {
             events: {

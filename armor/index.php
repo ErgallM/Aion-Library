@@ -67,17 +67,17 @@ $lang = new Lang();
 </div>
 
 <div id="searchItems">
+    <div class="close"><button></button></div>
     <div><form action="db.php?t=get" id="searchItemsForm">
         <input id="start" name="start" value="0" type="hidden">
         
-        <label>Название предмена: <input type="text" name="name" value="Введите название" data-default-text="Введите название"></label>
+        <label><input type="text" name="name" value="Меч" data-default-text="Введите название"></label>
         <img src="" id="loadSeparator" />
         <input type="submit" value="Найти" class="button">
         </form></div>
 
     <div id="posts-container">
         <div id="posts"></div>
-        <div id="load-more" class="button">Load More</div>
     </div>
 </div>
 
