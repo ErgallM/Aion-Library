@@ -131,6 +131,58 @@ $lang = new Lang();
         <button class="button">Снять</button>
     </div>
 </div>
+
+<div id="_manastone" class="dialog">
+    <ul>
+        <li>
+            HP<span>►</span>
+            <ul class="dialog">
+                <li class="green">HP +95</li>
+                <li class="green">HP +85</li>
+                <li class="green">HP +75</li>
+                <li class="green">HP +65</li>
+                <li class="green">HP +55</li>
+
+                <li class="white">HP +70</li>
+                <li class="white">HP +60</li>
+                <li class="white">HP +50</li>
+                <li class="white">HP +40</li>
+                <li class="white">HP +30</li>
+                <li class="white">HP +20</li>
+            </ul>
+        </li>
+        <li>
+            MP
+            <ul class="dialog">
+                <li class="green">MP +95</li>
+                <li class="green">MP +85</li>
+                <li class="green">MP +75</li>
+                <li class="green">MP +65</li>
+                <li class="green">MP +55</li>
+
+                <li class="white">MP +70</li>
+                <li class="white">MP +60</li>
+                <li class="white">MP +50</li>
+                <li class="white">MP +40</li>
+                <li class="white">MP +30</li>
+                <li class="white">MP +20</li>
+            </ul>
+        </li>
+        <li>
+            Атака
+            <ul class="dialog">
+                <li class="green">Атака +5</li>
+                <li class="green">Атака +4</li>
+
+                <li class="white">Атака +3</li>
+                <li class="white">Атака +2</li>
+                <li class="white">Атака +1</li>
+            </ul>
+        </li>
+
+    </ul>
+</div>
+
 <script language="javascript">
     window.addEvent('domready', function() {
         window.a = new Armor({
@@ -212,6 +264,44 @@ $lang = new Lang();
                 17: 'Ожерелья',
                 18: 'Кольца',
                 19: 'Пояса'
+            },
+            manastone : {
+                HP: {
+                    hp95: {name: 'HP +95', lvl: 60, skillName: 29, skillValue: 95, icon: 'green'},
+                    hp85: {name: 'HP +85', lvl: 50, skillName: 29, skillValue: 85, icon: 'green'},
+                    hp75: {name: 'HP +75', lvl: 40, skillName: 29, skillValue: 75, icon: 'green'},
+                    hp65: {name: 'HP +65', lvl: 30, skillName: 29, skillValue: 65, icon: 'green'},
+                    hp55: {name: 'HP +55', lvl: 20, skillName: 29, skillValue: 55, icon: 'green'},
+
+                    hp70: {name: 'HP +70', lvl: 60, skillName: 29, skillValue: 70, icon: 'white'},
+                    hp60: {name: 'HP +60', lvl: 50, skillName: 29, skillValue: 60, icon: 'white'},
+                    hp50: {name: 'HP +50', lvl: 40, skillName: 29, skillValue: 50, icon: 'white'},
+                    hp40: {name: 'HP +40', lvl: 30, skillName: 29, skillValue: 40, icon: 'white'},
+                    hp30: {name: 'HP +30', lvl: 20, skillName: 29, skillValue: 30, icon: 'white'},
+                    hp20: {name: 'HP +20', lvl: 10, skillName: 29, skillValue: 20, icon: 'white'}
+                },
+                MP: {
+                    mp95: {name: 'MP +95', lvl: 60, skillName: 30, skillValue: 95, icon: 'green'},
+                    mp85: {name: 'MP +85', lvl: 50, skillName: 30, skillValue: 85, icon: 'green'},
+                    mp75: {name: 'MP +75', lvl: 40, skillName: 30, skillValue: 75, icon: 'green'},
+                    mp65: {name: 'MP +65', lvl: 30, skillName: 30, skillValue: 65, icon: 'green'},
+                    mp55: {name: 'MP +55', lvl: 20, skillName: 30, skillValue: 55, icon: 'green'},
+
+                    mp70: {name: 'MP +70', lvl: 60, skillName: 30, skillValue: 70, icon: 'white'},
+                    mp60: {name: 'MP +60', lvl: 50, skillName: 30, skillValue: 60, icon: 'white'},
+                    mp50: {name: 'MP +50', lvl: 40, skillName: 30, skillValue: 50, icon: 'white'},
+                    mp40: {name: 'MP +40', lvl: 30, skillName: 30, skillValue: 40, icon: 'white'},
+                    mp30: {name: 'MP +30', lvl: 20, skillName: 30, skillValue: 30, icon: 'white'},
+                    mp20: {name: 'MP +20', lvl: 10, skillName: 30, skillValue: 20, icon: 'white'}
+                },
+                'Атака': {
+                    attack5: {name: 'Атака +5', lvl: 50, skillName: 1, skillValue: 5, icon: 'green'},
+                    attack4: {name: 'Атака +4', lvl: 30, skillName: 1, skillValue: 4, icon: 'green'},
+
+                    attack3: {name: 'Атака +3', lvl: 50, skillName: 1, skillValue: 3, icon: 'white'},
+                    attack2: {name: 'Атака +2', lvl: 30, skillName: 1, skillValue: 2, icon: 'white'},
+                    attack1: {name: 'Атака +1', lvl: 10, skillName: 1, skillValue: 1, icon: 'white'}
+                }
             }
         })
     });

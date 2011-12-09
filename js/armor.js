@@ -4,11 +4,14 @@ var Armor = new Class({
     options: {
         skills: {},
         types: {},
+        manastone: {},
 
         searchItems: {}
     },
 
     searchItems: null,
+
+    manastone: null,
 
     initialize: function(options) {
         this.setOptions(options);
@@ -17,8 +20,88 @@ var Armor = new Class({
             this.searchItems = new SearchItems(this.options.searchItems);
             this.searchItems.armor = this;
         }
+
+        if (this.options.manastone) {
+            this.manastone = new Manastone(this.options.manastone);
+            this.manastone.armor = this;
+        }
     }
 });
+
+var Manastone = new Class({
+    Implements: [Options],
+    options: {},
+
+    armor: null,
+
+    initialize: function(options) {
+        this.setOptions(options);
+    },
+
+    hide: function() {
+        if ($('manastone')) $('manastone').addClass('hide');
+    },
+
+    generateDialogBox: function(manastoneBlock, lvl) {
+        var di = $('manastone');
+
+
+        var position = manastoneBlock.getPosition();
+        position.x += 50;
+
+        if (di) {
+            di.position(position);
+            if (di) return di;
+        } else {
+            var di = new Element('div#manastone.dialog.hide');
+            di.position(position);
+        }
+
+        console.log(manastoneBlock, lvl);
+
+
+        var diUl = new Element('ul');
+        Object.each(this.options, function(manastone, manastoneName) {
+            var diUlLi = new Element('li', {html: manastoneName + '<span>►</span>'});
+            var diUlLiUl = new Element('ul.dialog');
+            Object.each(manastone, function(el) {
+                var li = new Element('li', {
+                    text: el.name,
+                    class: el.icon,
+                    'data-lvl': el.lvl,
+                    events: {
+                        click: function(e) {
+                            console.log(el);
+
+                            if (e) e.stop();
+                            return false;
+                        }
+                    }
+                });
+                li.inject(diUlLiUl);
+            })
+            diUlLiUl.inject(diUlLi); diUlLi.inject(diUl);
+        });
+
+        new Element('li', {
+            text: 'Отмена',
+            class: 'close',
+            events: {
+                click: function(e) {
+                    di.addClass('hide');
+
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(diUl);
+
+        diUl.inject(di);
+
+
+        return di;
+    }
+})
 
 var Item = new Class({
     Implements: [Options, Events],
@@ -65,6 +148,8 @@ var Item = new Class({
             events: {
                 click: function(e) {
                     compare.addClass('hide');
+
+                    that.armor.manastone.hide();
                     
                     if (e) e.stop();
                     return false;
@@ -134,7 +219,17 @@ var Item = new Class({
             var blockManastone = new Element('div.block');
             new Element('div.title', {html: 'Можно усилить магическими камнями ' + item.manastoneLvl + '-го уровня и ниже.'}).inject(blockManastone);
             for (var i = 0; i < item.manastoneCount; i++) {
-                new Element('div.manastone').inject(blockManastone);
+                new Element('div.manastone', {
+                    events: {
+                        click: function(e) {
+                            var di = that.armor.manastone.generateDialogBox(this, item.manastoneLvl);
+                            di.inject(document.body).removeClass('hide');
+
+                            if (e) e.stop();
+                            return false;
+                        }
+                    }
+                }).inject(blockManastone);
             }
             new Element('div.clear').inject(blockManastone);
             blockManastone.inject(compare);
@@ -174,6 +269,8 @@ var Item = new Class({
             events: {
                 click: function(e) {
                     that.hide();
+
+                    that.armor.manastone.hide();
                     
                     if (e) e.stop();
                     return false;
