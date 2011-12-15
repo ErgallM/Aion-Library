@@ -132,7 +132,7 @@ $lang = new Lang();
     </div>
 </div>
 
-<div id="_manastone" class="dialog">
+<div id="_manastone" class="dialog hide">
     <ul>
         <li>
             HP<span>►</span>

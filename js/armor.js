@@ -42,23 +42,24 @@ var Manastone = new Class({
         if ($('manastone')) $('manastone').addClass('hide');
     },
 
-    generateDialogBox: function(manastoneBlock, lvl) {
-        var di = $('manastone');
+    /** Generate manastone dialog box */
+    generateDialogBox: function(manastoneBlock, itemContainer) {
+        var that = this;
+        var item = itemContainer.options;
 
+        var di = $('manastone');
+        var lvl = item.manastoneLvl;
 
         var position = manastoneBlock.getPosition();
         position.x += 50;
 
         if (di) {
             di.position(position);
-            if (di) return di;
+            di.set('html', '');
         } else {
             var di = new Element('div#manastone.dialog.hide');
             di.position(position);
         }
-
-        console.log(manastoneBlock, lvl);
-
 
         var diUl = new Element('ul');
         Object.each(this.options, function(manastone, manastoneName) {
@@ -71,7 +72,24 @@ var Manastone = new Class({
                     'data-lvl': el.lvl,
                     events: {
                         click: function(e) {
-                            console.log(el);
+                            // set skills
+                            item.skills.manastone = item.skills.manastone || {};
+                            item.skills.manastone[manastoneBlock.get('data-manastone')] = item.skills.manastone[manastoneBlock.get('data-manastone')] || {}
+                            item.skills.manastone[manastoneBlock.get('data-manastone')][el.skillName] = el.skillValue;
+
+                            console.log(manastoneBlock, manastoneBlock.get('data-manastone'));
+
+                            // update skill
+                            itemContainer.calculateItemSkills();
+
+                            // set icon and text
+                            manastoneBlock.set('text', el.name);
+                            if (!manastoneBlock.hasClass(el.icon)) {
+                                manastoneBlock.addClass(el.icon);
+                                manastoneBlock.removeClass(('green' == el.icon) ? 'white' : 'green');
+                            }
+
+                            that.hide();
 
                             if (e) e.stop();
                             return false;
@@ -82,6 +100,31 @@ var Manastone = new Class({
             })
             diUlLiUl.inject(diUlLi); diUlLi.inject(diUl);
         });
+
+        new Element('li', {
+            text:'Очистить',
+            events:{
+                click:function (e) {
+                    var el = manastoneBlock;
+
+                    // delete skills
+                    item.skills.manastone = item.skills.manastone || {};
+                    delete item.skills.manastone[manastoneBlock.get('data-manastone')];
+
+                    // update skill
+                    itemContainer.calculateItemSkills();
+
+                    // set icon and text
+                    manastoneBlock.set('text', '');
+                    manastoneBlock.removeClass('white').removeClass('green');
+
+                    that.hide();
+
+                    if (e) e.stop();
+                    return false;
+                }
+            }
+        }).inject(diUl);
 
         new Element('li', {
             text: 'Отмена',
@@ -220,9 +263,10 @@ var Item = new Class({
             new Element('div.title', {html: 'Можно усилить магическими камнями ' + item.manastoneLvl + '-го уровня и ниже.'}).inject(blockManastone);
             for (var i = 0; i < item.manastoneCount; i++) {
                 new Element('div.manastone', {
+                    'data-manastone': i,
                     events: {
                         click: function(e) {
-                            var di = that.armor.manastone.generateDialogBox(this, item.manastoneLvl);
+                            var di = that.armor.manastone.generateDialogBox(this, that);
                             di.inject(document.body).removeClass('hide');
 
                             if (e) e.stop();
@@ -279,7 +323,6 @@ var Item = new Class({
         }).inject(buttonPanel);
         buttonPanel.inject(compare);
         /* end ButtonPanel */
-
 
         return compare;
     },
@@ -512,111 +555,88 @@ var Item = new Class({
         Object.each(compareSkills.main, function (value, name) {
             new Element('div.skills', {'data-skill':name, html:'<span>' + armorSkills[name] + '</span> ' + value}).inject($$('#compare-' + item.id + '-skills-main>div.clear')[0], 'before');
         });
+    },
+
+    /** Calculate all item skills */
+    calculateItemSkills: function() {
+        console.log(this.options);
     }
+
 })
 
 var SearchItems = new Class({
-    Implements: [Options],
+    Implements:[Options],
     options: {
-        panel: null,
-        items: null,
-
-        container: null,
+        request: null,
         filterForm: null,
-
-        scrollLoader: null,
-        request: null
+        loader: null,
+        spy: {
+            start: 0,
+            step: 100
+        }
     },
-
     initialize: function(options) {
         this.setOptions(options);
 
-        this.options.panel.addEvents({
-            show: function() {
-                console.log('show');
-                this.setStyle('left', 320);
-            },
-            hide: function() {
-                console.log('hide');
-                this.setStyle('left', '');
-            }
-        });
+        var self = this;
 
-        var that = this;
-
-        this.options.items.addEvent('click', function() {
-            var searchPanel = that.options.panel;
-            if (0 >= searchPanel.getStyle('left').toInt()) {
-                searchPanel.fireEvent('show');
-            } else {
-                searchPanel.fireEvent('hide');
-            }
-        });
-
-        this.options.scrollLoader = new ScrollSpy({
-            container: that.options.container,
-            min: that.options.container.getScrollSize().y - that.options.container.getSize().y - 150,
-            onEnter: function() {
-                console.log('enter');
-            }
-        });
-
-        this.options.request = new Request.JSON({
-            url: that.options.filterForm.get('action'),
+        self.options.request = new Request.JSON({
+            url: self.options.filterForm.get('action'),
             method: 'post',
             noCache: true,
             onRequest: function() {
-                console.log('request start');
+                // show loading
+                self.options.loader.removeClass('hide');
             },
-            onSuccess: function(responseJSON) {
-                console.log('request success', responseJSON);
+            onSuccess: function(jsonItems) {
+                self.options.spy.start += self.options.spy.step;
 
-                that.postHeader(responseJSON);
-                //reset the message
-                //loadMore.set('text','Load More');
-                //increment the current status
-                //start += desiredPosts;
-                //add in the new posts
-                //postHandler(responseJSON);
-                //spy calc!
-                //spyAct();
+                // show items;
+                self.showItemsList(jsonItems);
+
+                self.spyAct();
+
+                self.options.loader.addClass('hide');
             },
-            onFailure: function() {
-                console.log('request failure');
-            },
-            onComplete: function() {
-                console.log('request complete');
-            }
+            onFailure: function () {self.options.loader.addClass('hide');},
+            onError: function () {self.options.loader.addClass('hide');}
         });
 
-        this.options.filterForm.addEvent('submit', function(e) {
-            that.options.request.send({
-                data: this.serialize(true)
-            });
-            
+        self.options.filterForm.addEvent('submit', function(e) {
+            var data = this.serialize(true);
+            // Проверка на изменения в форме
+
+            self.options.request.send({
+                data: {
+                    start: this.options.spy.start,
+                    data: data
+                }
+            })
+
             if (e) e.stop();
             return false;
         })
     },
 
-    // Построение и вывод списка итемов в поисковое окно
-    postHeader: function(postsJSON) {
-        var that = this;
-        Object.each(postsJSON, function(post,i) {
-            var item = new Item(post);
-            item.armor = that.armor;
+    showItemsList: function(jsonItems) {
+        var self = this;
+        Object.each(jsonItems, function(itemData, i) {
+            var item = new Item(itemData);
+            item.armor = self.armor;
 
             new Element('div', {
                 html: '<img src="/images/items/icons/' + item.options.icon + '"> ' + item.options.name,
                 class: 'q' + item.options.q,
                 events: {
                     click: function() {
-                        $$('.compare').fireEvent('hide');
-                        
                         item.show();
                     }
                 }
-            }).inject(that.options.container);
-        });
+            }).inject(self.options.container);
+        })
+    },
+
+    spyAct: function() {
+
     }
 })
