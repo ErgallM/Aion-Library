@@ -23,9 +23,9 @@ if ('add' == $t) {
     $id = $_GET['id'];
 
     echo json_encode($table->getItem($id));
-} elseif ('get' == $t) {
+} elseif ('get' == $t && isset($_POST['data'])) {
     // Список итемов для armor/index.php
 
     $table = new Model_Item();
-    echo json_encode($table->getItemsList($_POST));
+    echo json_encode($table->getItemsList($_POST['data']));
 }

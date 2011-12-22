@@ -1,6 +1,6 @@
 #man {width: auto; display: inline-block; padding: 20px; position: relative; z-index: 100; background: #fff;}
 #man .item {border: 1px solid black; width: 40px; height: 40px; float: left; cursor: pointer; background: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; behavior: url(/PIE.htc);}
-#man .item:hover {box-shadow: 0px 0px 5px #06C; -webkit-box-shadow: 0px 0px 5px #06C; -moz-box-shadow: 0px 0px 5px #06C;}
+#man .item:hover, #man .item.active {box-shadow: 0px 0px 5px #06C; -webkit-box-shadow: 0px 0px 5px #06C; -moz-box-shadow: 0px 0px 5px #06C;}
 
 #man .weapon-1, #man .weapon-2 {float: left; width: 70px; max-width: 70px; outline: hidden;}
 #man .weapon-1 {margin-right: 40px;}
@@ -16,7 +16,7 @@
 
 #searchItems {
     width: 500px;
-    height: 400px;
+    height: 420px;
     position: absolute;
     top: 100px;
     left: 50%;
@@ -34,7 +34,8 @@
 
     behavior: url(/PIE.htc);
 }
-#searchItems input[name='name'] {width: 420px;}
+#searchItems input[name='name'] {width: 400px;}
+#searchItemsForm {padding: 10px 0px;}
 
 #posts  {margin-top: 10px; height:345px; overflow-y: auto; }
 #posts div {
@@ -172,3 +173,12 @@
 #manastone li.disable {background-color: #fff; opacity: 0.4; filter: alpha(opacity = 40);}
 #manastone li.close {border-top: 1px solid #666; padding-top: 5px; margin-top: 5px;}
 #manastone li.close:hover {border: 1px solid #fff !important; border-top: 1px solid #666 !important;}
+
+/* form */
+input[type=text], input[type=password], input[type=url], input[type=email], input.text, input.title, textarea {
+    background-color: #fff;
+    border: 1px solid #bbb;
+    color: #000;
+    width: 35px;
+    padding: 5px;}
+input[type=text]:focus, input[type=password]:focus, input[type=url]:focus, input[type=email]:focus, input.text:focus, input.title:focus, textarea:focus {border-color: #666;}

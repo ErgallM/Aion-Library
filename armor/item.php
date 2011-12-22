@@ -65,7 +65,15 @@ class Model_Item extends Zend_Db_Table
         foreach ($data as $key => $value) {
             if (array_search($key, $this->_cols)) {
                 $value = $this->filter($value);
-                $sql->where("{$key} LIKE ?", '%' . $value . '%');
+                switch ($key) {
+                    case 'slot':
+                    case 'type':
+                        $sql->where("{$key} = ?", $value);
+                        break;
+                    default:
+                        $sql->where("{$key} LIKE ?", '%' . $value . '%');
+                        break;
+                }
             }
         }
         $sql->limit($count, $start)->order('type')->order('q DESC')->order('lvl DESC')->order('name');

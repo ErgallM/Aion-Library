@@ -32,35 +32,35 @@ $lang = new Lang();
 
 <div id="man">
     <div class="weapon-1">
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="13" class="item" id="item-13"></div>
         <a href="#">=</a>
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="13" class="item" id="item-13-2"></div>
     </div>
 
-    <div data-type="1" data-slot="1" class="item"></div>
+    <div data-type="1" data-slot="11" class="item" id="item-11"></div>
 
     <div class="weapon-2">
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="12" class="item" id="item-12"></div>
         <a href="#">=</a>
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="12" class="item" id="item-12-2"></div>
     </div>
     <div class="clear"></div>
 
     <div class="itemPanel">
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="1" class="item" id="item-1"></div>
+        <div data-type="1" data-slot="8" class="item" id="item-8"></div>
+        <div data-type="1" data-slot="2" class="item" id="item-2"></div>
+        <div data-type="1" data-slot="3" class="item" id="item-3"></div>
+        <div data-type="1" data-slot="9" class="item" id="item-9"></div>
+        <div data-type="1" data-slot="4" class="item" id="item-4"></div>
     </div>
     <div class="itemPanel-2">
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
-        <div data-type="1" data-slot="1" class="item"></div>
+        <div data-type="1" data-slot="7" class="item" id="item-7"></div>
+        <div data-type="1" data-slot="8" class="item" id="item-8-2"></div>
+        <div data-type="1" data-slot="5" class="item" id="item-5"></div>
+        <div data-type="1" data-slot="6" class="item" id="item-6"></div>
+        <div data-type="1" data-slot="9" class="item" id="item-9-2"></div>
+        <div data-type="1" data-slot="10" class="item" id="item-10"></div>
     </div>
 
     <div class="clear"></div>
@@ -69,11 +69,11 @@ $lang = new Lang();
 <div id="searchItems">
     <div class="close"><button></button></div>
     <div><form action="db.php?t=get" id="searchItemsForm">
-        <input id="start" name="start" value="0" type="hidden">
+        <input id="slot" name="slot" value="0" type="hidden">
         
         <label><input type="text" name="name" value="Меч" data-default-text="Введите название"></label>
-        <img src="" id="loadSeparator" />
         <input type="submit" value="Найти" class="button">
+        <img src="/images/ajax-loader.gif" height="16px" width="16px" id="loadSeparator" class="hide" />
         </form></div>
 
     <div id="posts-container">
@@ -190,7 +190,8 @@ $lang = new Lang();
                 panel: $('searchItems'),
                 items: $$('.item'),
                 container: $('posts'),
-                filterForm: $('searchItemsForm')
+                filterForm: $('searchItemsForm'),
+                loader: $('loadSeparator')
             },
             skills: {
                 1: 'Атака',

@@ -6,12 +6,16 @@ var Armor = new Class({
         types: {},
         manastone: {},
 
-        searchItems: {}
+        searchItems: {},
+
+        man: {}
     },
 
     searchItems: null,
 
     manastone: null,
+
+    man: null,
 
     initialize: function(options) {
         this.setOptions(options);
@@ -24,6 +28,11 @@ var Armor = new Class({
         if (this.options.manastone) {
             this.manastone = new Manastone(this.options.manastone);
             this.manastone.armor = this;
+        }
+
+        if (this.options.man) {
+            this.man = new Man(this.options.man);
+            this.man.armor = this;
         }
     }
 });
@@ -302,6 +311,18 @@ var Item = new Class({
             text: 'Одень | Снять',
             events: {
                 click: function(e) {
+                    var itemContainer = $$('.item.active')[0];
+                    if (!itemContainer) return false;
+
+                    var itemId = itemContainer.get('id');
+
+                    if (that.armor.man.hasItem(itemId)) {
+                        that.armor.man.clearItem(itemId);
+                        itemContainer.setStyle('background-image', '');
+                    } else {
+                        that.armor.man.setItem(itemId, item);
+                        itemContainer.setStyle('background-image', compare.getStyle('background-image'));
+                    }
 
                     if (e) e.stop();
                     return false;
@@ -570,10 +591,15 @@ var SearchItems = new Class({
         request: null,
         filterForm: null,
         loader: null,
+        container: null,
         spy: {
             start: 0,
-            step: 100
-        }
+            step: 50,
+            spy: null
+        },
+
+        filterFormData: '',
+        items: null
     },
     initialize: function(options) {
         this.setOptions(options);
@@ -606,12 +632,35 @@ var SearchItems = new Class({
             var data = this.serialize(true);
             // Проверка на изменения в форме
 
+            if (self.options.filterFormData != Object.toQueryString(data)) {
+                // Очистка данных
+                self.options.container.set('html', '');
+                self.options.spy.start = 0;
+            }
+            self.options.filterFormData = Object.toQueryString(data);
+
+            data['start'] = self.options.spy.start;
+            data['count'] = self.options.spy.step;
+
+            console.log(data);
+
             self.options.request.send({
                 data: {
-                    start: this.options.spy.start,
                     data: data
                 }
             })
+
+            if (e) e.stop();
+            return false;
+        });
+
+        self.options.items.addEvent('click', function(e) {
+            self.options.filterForm.getElementById('slot').set('value', this.get('data-slot'));
+            var activeItem = $$('.item.active');
+            if (activeItem && activeItem[0] != this) {
+                activeItem.removeClass('active');
+            }
+            this.addClass('active');
 
             if (e) e.stop();
             return false;
@@ -637,6 +686,39 @@ var SearchItems = new Class({
     },
 
     spyAct: function() {
+        var self = this;
+        var spyContainer = self.options.container;
+        var filter = self.options.filterForm;
 
+        var min = spyContainer.getScrollSize().y - spyContainer.getSize().y;
+        self.options.spy.spy = new ScrollSpy({
+            container: spyContainer,
+            min: min,
+            onEnter: function() {
+                filter.fireEvent('submit');
+            }
+        })
+
+    }
+});
+
+var Man = new Class({
+    Implements:[Options],
+    options: {
+        items: {}
+    },
+
+    setItem: function(itemName, item) {
+        this.options.items[itemName] = item;
+        return this;
+    },
+    clearItem: function(itemName) {
+        delete this.options.items[itemName];
+        return this;
+    },
+    hasItem: function(itemName) {
+        var self = this;
+
+        return (Object.keys(self.options.items).indexOf(itemName) >= 0) ? true : false;
     }
 })
