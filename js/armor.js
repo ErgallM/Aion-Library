@@ -257,9 +257,18 @@ var Item = new Class({
         Object.each(compareSkills, function(skills, skillType) {
             var blockSkills = new Element('div#compare-' + item.id + '-skills-' + skillType + '.block'/*, {html: 'Type=' + skillType}*/);
 
-            Object.each(skills, function(value, name) {
-                new Element('div.skills', {'data-skill': name, html: '<span>' + armorSkills[name] + '</span> ' + value}).inject(blockSkills);
-            });
+            if ('set' == skillType) {
+                Object.each(skills, function(setSkills, setPiece) {
+                    // @todo Поправить вывод сетовых скилов
+                    Object.each(setSkills, function (value, name) {
+                        console.log(setPiece + ': ' + armorSkills[name] + ' - ' + value);
+                    });
+                });
+            } else {
+                Object.each(skills, function(value, name) {
+                    new Element('div.skills', {'data-skill': name, html: '<span>' + armorSkills[name] + '</span> ' + value}).inject(blockSkills);
+                });
+            }
 
             new Element('div.clear').inject(blockSkills);
             blockSkills.inject(compare);
@@ -588,6 +597,7 @@ var Item = new Class({
 var SearchItems = new Class({
     Implements:[Options],
     options: {
+        panel: null,
         request: null,
         filterForm: null,
         loader: null,
@@ -605,6 +615,13 @@ var SearchItems = new Class({
         this.setOptions(options);
 
         var self = this;
+
+        self.options.panel.getElement('.close').getElement('button').addEvent('click', function(e) {
+            self.options.panel.addClass('hide');
+
+            if (e) e.stop();
+            return false;
+        })
 
         self.options.request = new Request.JSON({
             url: self.options.filterForm.get('action'),
@@ -642,7 +659,7 @@ var SearchItems = new Class({
             data['start'] = self.options.spy.start;
             data['count'] = self.options.spy.step;
 
-            console.log(data);
+            //console.log(data);
 
             self.options.request.send({
                 data: {
@@ -662,6 +679,8 @@ var SearchItems = new Class({
             }
             this.addClass('active');
 
+            self.open();
+
             if (e) e.stop();
             return false;
         })
@@ -678,6 +697,7 @@ var SearchItems = new Class({
                 class: 'q' + item.options.q,
                 events: {
                     click: function() {
+                        console.log(item);
                         item.show();
                     }
                 }
@@ -698,7 +718,11 @@ var SearchItems = new Class({
                 filter.fireEvent('submit');
             }
         })
+    },
 
+    open: function() {
+        this.options.panel.removeClass('hide');
+        this.options.filterForm.fireEvent('submit');
     }
 });
 

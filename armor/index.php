@@ -66,12 +66,12 @@ $lang = new Lang();
     <div class="clear"></div>
 </div>
 
-<div id="searchItems">
+<div id="searchItems" class="hide">
     <div class="close"><button></button></div>
     <div><form action="db.php?t=get" id="searchItemsForm">
         <input id="slot" name="slot" value="0" type="hidden">
         
-        <label><input type="text" name="name" value="Меч" data-default-text="Введите название"></label>
+        <label><input type="text" name="name" value="" data-default-text="Введите название"></label>
         <input type="submit" value="Найти" class="button">
         <img src="/images/ajax-loader.gif" height="16px" width="16px" id="loadSeparator" class="hide" />
         </form></div>
