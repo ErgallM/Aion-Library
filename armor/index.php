@@ -66,6 +66,8 @@ $lang = new Lang();
     <div class="clear"></div>
 </div>
 
+<div id="manSkills"></div>
+
 <div id="searchItems" class="hide">
     <div class="close"><button></button></div>
     <div><form action="db.php?t=get" id="searchItemsForm">
@@ -303,6 +305,9 @@ $lang = new Lang();
                     attack2: {name: 'Атака +2', lvl: 30, skillName: 1, skillValue: 2, icon: 'white'},
                     attack1: {name: 'Атака +1', lvl: 10, skillName: 1, skillValue: 1, icon: 'white'}
                 }
+            },
+            man: {
+                container: $('manSkills')
             }
         })
     });

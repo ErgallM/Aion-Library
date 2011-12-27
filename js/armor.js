@@ -185,6 +185,8 @@ var Item = new Class({
 
     initialize: function(options) {
         this.setOptions(options);
+
+        if (this.options.manastoneCount > 6) this.options.manastoneCount = 6;
     },
 
     /**
@@ -259,10 +261,11 @@ var Item = new Class({
 
             if ('set' == skillType) {
                 Object.each(skills, function(setSkills, setPiece) {
-                    // @todo Поправить вывод сетовых скилов
+                    var skillSetPiece = new Element('div', {html: setPiece + '&nbsp;&mdash;&nbsp;'});
                     Object.each(setSkills, function (value, name) {
-                        console.log(setPiece + ': ' + armorSkills[name] + ' - ' + value);
+                        skillSetPiece.set('html', skillSetPiece.get('html') + armorSkills[name] + ':&nbsp;' + value + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
                     });
+                    skillSetPiece.inject(blockSkills);
                 });
             } else {
                 Object.each(skills, function(value, name) {
@@ -325,11 +328,13 @@ var Item = new Class({
 
                     var itemId = itemContainer.get('id');
 
+                    // @todo Сравнение и переодевание итемов (если итем уже одет, нужно переодеть его, а не снять)
+
                     if (that.armor.man.hasItem(itemId)) {
                         that.armor.man.clearItem(itemId);
                         itemContainer.setStyle('background-image', '');
                     } else {
-                        that.armor.man.setItem(itemId, item);
+                        that.armor.man.setItem(itemId, that);
                         itemContainer.setStyle('background-image', compare.getStyle('background-image'));
                     }
 
@@ -338,6 +343,7 @@ var Item = new Class({
                 }
             }
         }).inject(buttonPanel);
+
         new Element('button.button', {
             text: 'Отмена',
             events: {
@@ -589,7 +595,26 @@ var Item = new Class({
 
     /** Calculate all item skills */
     calculateItemSkills: function() {
-        console.log(this.options);
+        var skills = {}; skills['set'] = {};
+        var self = this;
+        Object.each(self.options.skills, function(value, name) {
+            if ('set' == name) {
+                Object.each(value, function(pieceSkills, pieceName) {
+                    Object.each(pieceSkills, function (skillValue, skillName) {
+                        if (!skills['set'][pieceName]) skills['set'][pieceName] = {};
+                        if (!skills['set'][pieceName][skillName]) skills['set'][pieceName][skillName] = 0;
+                        if (Number.from(skillValue)) skills['set'][pieceName][skillName] += Number.from(skillValue);
+                    });
+                })
+            } else {
+                Object.each(value, function(skillValue, skillName) {
+                    if (!skills[skillName]) skills[skillName] = 0;
+                    if (Number.from(skillValue)) skills[skillName] += Number.from(skillValue);
+                });
+            }
+        });
+
+        return skills;
     }
 
 })
@@ -729,20 +754,71 @@ var SearchItems = new Class({
 var Man = new Class({
     Implements:[Options],
     options: {
-        items: {}
+        items: {},
+        container: null
+    },
+    initialize: function(options) {
+        this.setOptions(options);
     },
 
     setItem: function(itemName, item) {
         this.options.items[itemName] = item;
+        this.calculateSkills();
         return this;
     },
     clearItem: function(itemName) {
         delete this.options.items[itemName];
+        this.calculateSkills();
         return this;
     },
     hasItem: function(itemName) {
         var self = this;
 
         return (Object.keys(self.options.items).indexOf(itemName) >= 0) ? true : false;
+    },
+    calculateSkills: function() {
+        var skills = {};
+        var self = this;
+        var armorSkills = self.armor.options.skills;
+
+        var setSkills = {};
+
+        Object.each(this.options.items, function(item, itemName) {
+            skills = Object.merge(skills, item.calculateItemSkills());
+
+            // Сет шмоток
+            if (item.skills['set']) {
+                var piece = 1;
+                Object.each(self.options.items, function(i, iName) {
+                    if (item.complect.items.indexOf(i.name)) {
+                        // Подсчет кусочков сета
+                        piece++;
+                    }
+                });
+
+                // Подсчет скилов сета
+                for (var i = 1; i <= piece; i++) {
+                    if (item.skills['set'][i]) {
+                        if (!setSkills[item.complect.name]) setSkills[item.complect.name] = {};
+                        setSkills[item.complect.name] = Object.compare(setSkills[item.complect.name], item.skills['set'][i]);
+                    }
+                }
+                // Подсчет всего сета
+                if (piece == Array.length) {
+                    if (!setSkills[item.complect.name]) setSkills[item.complect.name] = {};
+                    setSkills[item.complect.name] = Object.compare(setSkills[item.complect.name], item.skills['set']['all']);
+                }
+            }
+        });
+
+        console.log('setSkills', setSkills);
+
+        self.options.container.set('html', '');
+
+        Object.each(skills, function(skillValue, skillName) {
+            if ('set' != skillName) {
+                new Element('div', {html: armorSkills[skillName] + ': ' + skillValue}).inject(self.options.container);
+            }
+        });
     }
 })
